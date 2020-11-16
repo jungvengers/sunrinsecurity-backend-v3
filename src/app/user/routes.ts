@@ -8,6 +8,7 @@ const router = Router()
 const registerValidator = [
     body('username').notEmpty(),
     body('password').notEmpty(),
+    body('alias').notEmpty(),
     validationResultChecker
 ]
 

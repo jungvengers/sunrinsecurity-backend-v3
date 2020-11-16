@@ -8,7 +8,7 @@ import { createHashedPassword } from "utils/user"
 
 
 const register = async (req: Request, res: Response) => {
-    const { username, password } = req.body
+    const { username, password, alias } = req.body
     const hashedPassword = await createHashedPassword(password)
 
     const isExistingUser = await User.exists({ 'username': username })
@@ -19,7 +19,8 @@ const register = async (req: Request, res: Response) => {
 
     await User.create({
         username: username,
-        password: hashedPassword
+        password: hashedPassword,
+        alias: alias
     })
 
     res.status(201).send()
