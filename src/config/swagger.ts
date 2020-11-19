@@ -1,8 +1,8 @@
 const swaggerDefinition = {
     info: {
-        title: 'TS-EXPRESS-MONGOOSE-USER-BOILERPLATE',
-        version: '1.0.0',
-        description: 'Backend REST API server',
+        title: "TS-EXPRESS-MONGOOSE-USER-BOILERPLATE",
+        version: "1.0.0",
+        description: "Backend REST API server",
         contact: {
             name: "YeonGyu Kim",
             email: "code.yeon.gyu@gmail.com",
@@ -10,16 +10,16 @@ const swaggerDefinition = {
     },
     securityDefinitions: {
         oAuth: {
-            type: 'oauth2',
-            authorizationUrl: "/user/auth/token"
-        }
+            type: "oauth2",
+            authorizationUrl: "/user/auth/token",
+        },
     },
-    basePath: '/'
-};
+    basePath: "/",
+}
 
 const options = {
     swaggerDefinition,
-    apis: ['./src/routes/*.ts']
-};
+    apis: ["./src/routes/*.ts"],
+}
 
 export default options

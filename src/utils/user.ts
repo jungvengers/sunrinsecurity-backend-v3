@@ -1,4 +1,4 @@
-import { genSalt, hash, compare } from 'bcrypt'
+import { genSalt, hash, compare } from "bcrypt"
 
 const createHashedPassword = async (password: string) => {
     const saltRounds = 10
