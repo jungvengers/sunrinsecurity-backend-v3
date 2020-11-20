@@ -13,10 +13,13 @@ db.on("error", (err) => {
 db.once("open", () => {
     console.log(`Connected to mongoDB server ${DB_URI}`)
 })
-mongoose.connect(DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-})
 
-export default db
+const connectDB = () => {
+    mongoose.connect(DB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+    })
+}
+
+export default connectDB
