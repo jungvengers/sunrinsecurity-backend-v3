@@ -1,14 +1,14 @@
-import { genSalt, hash, compare } from "bcrypt"
+import { genSaltSync, hashSync, compareSync } from "bcrypt"
 
-const createHashedPassword = async (password: string) => {
+const createHashedPassword = (password: string) => {
     const saltRounds = 10
-    const salt = await genSalt(saltRounds)
-    const hashedPassword = await hash(password, salt)
+    const salt = genSaltSync(saltRounds)
+    const hashedPassword = hashSync(password, salt)
     return hashedPassword
 }
 
-const checkPassword = async (password: string, hashedPassword: string) => {
-    const isPasswordCorrect = await compare(password, hashedPassword) // hash.toString for type checking hack
+const checkPassword = (password: string, hashedPassword: string) => {
+    const isPasswordCorrect = compareSync(password, hashedPassword) // hash.toString for type checking hack
     return isPasswordCorrect
 }
 
