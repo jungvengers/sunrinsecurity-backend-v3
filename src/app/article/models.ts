@@ -1,6 +1,7 @@
+import { User } from "app/user/models"
 import { Schema, model, Document } from "mongoose"
 
-enum club {
+enum Club {
     Layer7 = "Layer7",
     Unifox = "Unifox",
     Nefus = "Nefus",
@@ -8,7 +9,7 @@ enum club {
     Emotion = "Emotion",
 }
 
-enum kind {
+enum Kind {
     iot = "iot",
     web = "web",
     app = "app",
@@ -21,39 +22,20 @@ enum kind {
 export interface ArticleModel extends Document {
     isContestWork: boolean
     participator: string[]
-    club: club[]
+    club: Club[]
     content: string
-    kind: kind[]
+    kind: Kind[]
 }
 
 const articleSchema: Schema<ArticleModel> = new Schema({
-    isContestWork: { type: Boolean },
-    participator: { type: String },
-    club: {
-        type: [
-            {
-                type: String,
-                enum: ["Layer7", "Unifox", "Nefus", "TeamLog", "Emotion"],
-            },
-        ],
-    },
-    content: { type: String },
-    kind: [
-        {
-            type: String,
-            enum: [
-                "iot",
-                "web",
-                "app",
-                "security",
-                "ai",
-                "algorithm",
-                "network",
-            ],
-        },
-    ],
+    writer: { type: User.schema, required: true },
+    isContestWork: { type: Boolean, required: true },
+    participator: { type: String, required: true },
+    club: { type: [String], enum: Object.keys(Club) },
+    content: { type: String, required: true },
+    kind: { type: [String], enum: Object.keys(Kind), required: true },
 })
 
 articleSchema.index({ username: 1 })
 
-export const Article = model<ArticleModel>("User", articleSchema)
+export const Article = model<ArticleModel>("Article", articleSchema)
