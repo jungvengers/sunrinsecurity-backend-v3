@@ -20,6 +20,7 @@ enum Kind {
 }
 
 export interface ArticleModel extends Document {
+    writer: string
     isContestWork: boolean
     participator: string[]
     club: Club[]
@@ -28,7 +29,7 @@ export interface ArticleModel extends Document {
 }
 
 const articleSchema: Schema<ArticleModel> = new Schema({
-    writer: { type: User.schema, required: true },
+    writer: { type: String, required: true },
     isContestWork: { type: Boolean, required: true },
     participator: { type: String, required: true },
     club: { type: [String], enum: Object.keys(Club) },
