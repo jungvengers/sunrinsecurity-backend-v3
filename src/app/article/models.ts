@@ -1,4 +1,3 @@
-import { User } from "app/user/models"
 import { Schema, model, Document } from "mongoose"
 
 enum Club {
