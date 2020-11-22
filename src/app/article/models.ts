@@ -28,14 +28,17 @@ export interface ArticleModel extends Document {
     kind: Kind[]
 }
 
-const articleSchema: Schema<ArticleModel> = new Schema({
-    writer: { type: String, required: true },
-    isContestWork: { type: Boolean, required: true },
-    participator: { type: String, required: true },
-    club: { type: [String], enum: Object.keys(Club) },
-    content: { type: String, required: true },
-    kind: { type: [String], enum: Object.keys(Kind), required: true },
-})
+const articleSchema: Schema<ArticleModel> = new Schema(
+    {
+        writer: { type: String, required: true },
+        isContestWork: { type: Boolean, required: true },
+        participator: { type: String, required: true },
+        club: { type: [String], enum: Object.keys(Club) },
+        content: { type: String, required: true },
+        kind: { type: [String], enum: Object.keys(Kind), required: true },
+    },
+    { timestamps: { createdAt: "created_at" } }
+)
 
 articleSchema.index({ username: 1 })
 
