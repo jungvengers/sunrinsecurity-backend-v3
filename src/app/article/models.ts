@@ -21,20 +21,20 @@ enum Kind {
 export interface ArticleModel extends Document {
     writer: string
     isContestWork: boolean
-    participator: string[]
-    club: Club[]
+    participators: string[]
+    clubs: Club[]
     content: string
-    kind: Kind[]
+    kinds: Kind[]
 }
 
 const articleSchema: Schema<ArticleModel> = new Schema(
     {
         writer: { type: String, required: true },
         isContestWork: { type: Boolean, required: true },
-        participator: { type: String, required: true },
-        club: { type: [String], enum: Object.keys(Club) },
+        participators: { type: [String], required: true },
+        clubs: { type: [String], enum: Object.keys(Club) },
         content: { type: String, required: true },
-        kind: { type: [String], enum: Object.keys(Kind), required: true },
+        kinds: { type: [String], enum: Object.keys(Kind), required: true },
     },
     { timestamps: { createdAt: "created_at" } }
 )
