@@ -18,16 +18,18 @@ enum Kind {
     network = "network",
 }
 
-export interface ArticleModel extends Document {
+interface ArticleModel {
     writer: string
     isContestWork: boolean
-    participators: string[]
+    participants: string[]
     clubs: Club[]
     content: string
     kinds: Kind[]
 }
 
-const articleSchema: Schema<ArticleModel> = new Schema(
+interface ArticleModelDocument extends Document, ArticleModel {}
+
+const articleSchema: Schema<ArticleModelDocument> = new Schema(
     {
         writer: { type: String, required: true },
         isContestWork: { type: Boolean, required: true },
@@ -41,4 +43,12 @@ const articleSchema: Schema<ArticleModel> = new Schema(
 
 articleSchema.index({ username: 1 })
 
-export const Article = model<ArticleModel>("Article", articleSchema)
+const Article = model<ArticleModelDocument>("Article", articleSchema)
+
+export {
+    Club,
+    Kind,
+    ArticleModel,
+    ArticleModelDocument as ArticleModelSchema,
+    Article,
+}
