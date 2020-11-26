@@ -40,6 +40,19 @@ const addArticle = async (req: Request, res: Response) => {
         return res.status(500).send()
     }
 }
+
+const getArticle = async (req: Request, res: Response) => {
+    const articleID = req.params["id"]
+    if (!isValidObjectId(articleID)) {
+        return res.status(404).send()
+    }
+    const isArticleExists = await Article.exists({ _id: articleID })
+    if (!isArticleExists) {
+        return res.status(404).send()
+    }
+    const article = await Article.findById(req.params["id"])
+    return res.send(article)
+}
 }
 
 const addArticle = (req: Request, res: Response) => {
