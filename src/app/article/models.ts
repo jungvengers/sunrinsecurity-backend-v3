@@ -33,12 +33,17 @@ const articleSchema: Schema<ArticleModelDocument> = new Schema(
     {
         writer: { type: String, required: true },
         isContestWork: { type: Boolean, required: true },
-        participators: { type: [String], required: true },
-        clubs: { type: [String], enum: Object.keys(Club) },
+        participants: { type: [String], required: true },
+        clubs: { type: [String], enum: Object.keys(Club), default: [] },
         content: { type: String, required: true },
-        kinds: { type: [String], enum: Object.keys(Kind), required: true },
+        kinds: {
+            type: [String],
+            enum: Object.keys(Kind),
+            required: true,
+            default: [],
+        },
     },
-    { timestamps: { createdAt: "created_at" } }
+    { timestamps: true }
 )
 
 articleSchema.index({ username: 1 })
