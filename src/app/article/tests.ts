@@ -122,7 +122,7 @@ const testData = [
 ]
 
 const createArticle = async function (body: object, token: string) {
-    await request(app)
+    return await request(app)
         .post("/article")
         .set("Authorization", "Bearer " + token)
         .send(body)
@@ -131,7 +131,7 @@ const createArticle = async function (body: object, token: string) {
 describe("Article", () => {
     const username = "testaccount"
     const password = "testpassword"
-    const participants = "김x규(Layer7), 양x준(TeamLog), 조x연(Unifox)"
+    const participants = ["김x규", "양x준", "조x연"]
     const clubs = ["Layer7", "Unifox", "TeamLog"]
     const content = "<p>WE CREATED THIS SITE!</p>"
     const kinds = ["web"]
@@ -174,6 +174,7 @@ describe("Article", () => {
     beforeEach(async function () {
         await Article.deleteMany({}, () => {})
     })
+
     describe("Add Article", function () {
         describe("Failure Cases", function () {
             it("Should return 401 unauthorized", async function () {
@@ -289,9 +290,6 @@ describe("Article", () => {
                         .expect(201)
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
-                    Object.keys(body).forEach((key, value) => {
-                        assert.strictEqual(data[key], value)
-                    })
                 })
                 it("Without clubs", async function () {
                     const body = {
@@ -307,9 +305,6 @@ describe("Article", () => {
                         .expect(201)
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
-                    Object.keys(body).forEach((key, value) => {
-                        assert.strictEqual(data[key], value)
-                    })
                 })
             })
             describe("not isContestWork", function () {
@@ -328,9 +323,6 @@ describe("Article", () => {
                         .expect(201)
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
-                    Object.keys(body).forEach((key, value) => {
-                        assert.strictEqual(data[key], value)
-                    })
                 })
                 it("Without clubs", async function () {
                     const body = {
@@ -346,14 +338,159 @@ describe("Article", () => {
                         .expect(201)
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
-                    Object.keys(body).forEach((key, value) => {
-                        assert.strictEqual(data[key], value)
-                    })
                 })
             })
         })
     })
-    describe("Get Articles", function () {
+    describe("Get Article", async function () {
+        it("Article should not be found", async function () {
+            await request(app).get("/article/wrong_id").send().expect(404)
+        })
+        it("Article should be found", async function () {
+            const id = JSON.parse(
+                (await createArticle(testData[0], token)).text
+            )._id
+            const response = await request(app)
+                .get(`/article/${id}`)
+                .send()
+                .expect(200)
+            const responseContent = JSON.parse(response.text).content
+            assert.strictEqual(responseContent, testData[0].content)
+        })
+    })
+    describe("Update Article", async function () {
+        describe("Failure Cases", function () {
+            it("Article should not be found", async function () {
+                await request(app)
+                    .patch("/article/wrong_id")
+                    .set("Authorization", "Bearer " + token)
+                    .send()
+                    .expect(404)
+            })
+            it("Should return 401 Unauthorized", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                await request(app).patch(`/article/${id}`).expect(401)
+            })
+            it("Should return 403 Forbidden", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token2)
+                    .expect(403)
+            })
+        })
+        describe("Success Cases", function () {
+            it("Updating isContestWork", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                const response = await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        isContestWork: false,
+                    })
+                    .expect(200)
+                const data = JSON.parse(response.text)
+                assert.strictEqual(data.isContestWork, false)
+            })
+            it("Updating participants", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                const participants = ["김x규1", "김x규2"]
+                const response = await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        participants: participants,
+                    })
+                    .expect(200)
+                const data = JSON.parse(response.text)
+                console.log(data.participants)
+
+                assert.deepStrictEqual(data.participants, ["김x규1", "김x규2"])
+            })
+            it("Updating content", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                const response = await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        content: "<p>그냥 테스트 수정입니다.</p>",
+                    })
+                    .expect(200)
+                const data = JSON.parse(response.text)
+                assert.strictEqual(
+                    data.content,
+                    "<p>그냥 테스트 수정입니다.</p>"
+                )
+            })
+            it("Update kinds", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                const response = await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        kinds: ["network", "security"],
+                    })
+                    .expect(200)
+                const data = JSON.parse(response.text)
+                assert.deepStrictEqual(data.kinds, ["network", "security"])
+            })
+        })
+    })
+    describe("Delete Article", async function () {
+        describe("Failure Cases", function () {
+            it("Article should not be found", async function () {
+                await request(app)
+                    .delete("/article/wrong_id")
+                    .set("Authorization", "Bearer " + token)
+                    .send()
+                    .expect(404)
+            })
+            it("Should return 401 Unauthorized", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                await request(app).delete(`/article/${id}`).expect(401)
+            })
+            it("Should return 403 Forbidden", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                await request(app)
+                    .delete(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token2)
+                    .expect(403)
+            })
+        })
+        describe("Success Cases", function () {
+            it("Article Found, Should delete an article", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                await request(app)
+                    .delete(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .expect(200)
+                await request(app)
+                    .get(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .expect(404)
+            })
+        })
+    })
+
+    /*describe("Get Articles", function () {
         testData.forEach(async (data) => {
             await createArticle(data, token)
         })
@@ -571,151 +708,7 @@ describe("Article", () => {
             })
         })
         // pagination
-    })
-
-    describe("Get Article", async function () {
-        await createArticle(testData[0], token)
-        const response = await request(app)
-            .get("/article")
-            .query({ per_page: 1 })
-            .send()
-        const id = JSON.parse(response.text)._id
-        // create an article and save the id for it
-
-        it("Article should not be found", async function () {
-            await request(app).get("/article/wrong_id").send().expect(404)
-        })
-        it("Article should be found", async function () {
-            const response = await request(app)
-                .get(`/article/${id}`)
-                .send()
-                .expect(200)
-            const responseContent = JSON.parse(response.text).content
-            assert.strictEqual(responseContent, testData[0].content)
-        })
-    })
-    describe("Update Article", async function () {
-        await createArticle(testData[0], token)
-        const response = await request(app)
-            .get("/article")
-            .query({ per_page: 1 })
-            .send()
-        const id = JSON.parse(response.text)._id
-        // create an article and save the id for it
-
-        describe("Failure Cases", function () {
-            it("Article should not be found", async function () {
-                await request(app)
-                    .patch("/article/wrong_id")
-                    .set("Authorization", "Bearer " + token)
-                    .send()
-                    .expect(404)
-            })
-            it("Should return 401 Unauthorized", async function () {
-                await request(app)
-                    .patch(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token)
-                    .expect(401)
-            })
-            it("Should return 403 Forbidden", async function () {
-                await request(app)
-                    .patch(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token2)
-                    .expect(403)
-            })
-        })
-        describe("Success Cases", function () {
-            it("Updating isContestWork", async function () {
-                const response = await request(app)
-                    .patch(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token)
-                    .send({
-                        isContestWork: false,
-                    })
-                    .expect(200)
-                const data = JSON.parse(response.text)
-                assert.strictEqual(data.isContestWork, false)
-            })
-            it("Updating participants", async function () {
-                const response = await request(app)
-                    .patch(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token)
-                    .send({
-                        participants: ["김x규1", "김x규2"],
-                    })
-                    .expect(200)
-                const data = JSON.parse(response.text)
-                assert.strictEqual(data.participants, ["김x규1", "김x규2"])
-            })
-            it("Updating content", async function () {
-                const response = await request(app)
-                    .patch(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token)
-                    .send({
-                        content: "<p>그냥 테스트 수정입니다.</p>",
-                    })
-                    .expect(200)
-                const data = JSON.parse(response.text)
-                assert.strictEqual(
-                    data.content,
-                    "<p>그냥 테스트 수정입니다.</p>"
-                )
-            })
-            it("Update kinds", async function () {
-                const response = await request(app)
-                    .patch(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token)
-                    .send({
-                        kinds: ["network", "security"],
-                    })
-                    .expect(200)
-                const data = JSON.parse(response.text)
-                assert.strictEqual(data.kinds, ["network", "security"])
-            })
-        })
-    })
-
-    describe("Delete Article", async function () {
-        await createArticle(testData[0], token)
-        const response = await request(app)
-            .get("/article")
-            .query({ per_page: 1 })
-            .send()
-        const id = JSON.parse(response.text)._id
-        // create an article and save the id for it
-
-        describe("Failure Cases", function () {
-            it("Article should not be found", async function () {
-                await request(app)
-                    .delete("/article/wrong_id")
-                    .set("Authorization", "Bearer " + token)
-                    .send()
-                    .expect(404)
-            })
-            it("Should return 401 Unauthorized", async function () {
-                await request(app)
-                    .delete(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token)
-                    .expect(401)
-            })
-            it("Should return 403 Forbidden", async function () {
-                await request(app)
-                    .delete(`/article/${id}`)
-                    .set("Authorization", "Bearer " + token2)
-                    .expect(403)
-            })
-        })
-        describe("Success Cases", function () {
-            it("Article Found, Should delete an article", async function () {
-                await request(app).get(`/article/${id}`).expect(200)
-                const response = await request(app)
-                    .get("/article")
-                    .query({ per_page: 1 })
-                const data = JSON.parse(response.text)
-                assert.strictEqual(data.articles.length, 0)
-            })
-        })
-    })
+    })*/
 
     after(async () => {
         await Article.deleteMany({}, () => {})
