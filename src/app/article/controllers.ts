@@ -3,6 +3,15 @@ import { Article, Club, Kind } from "app/article/models"
 import { UserModel } from "app/user/models"
 import { isValidObjectId } from "mongoose"
 
+const nullableJSONParse = (value: any) => {
+    try {
+        return JSON.parse(value as any)
+    } catch (error) {
+        console.log(error)
+    }
+    return null
+}
+
 const addArticle = async (req: Request, res: Response) => {
     const currentUser: UserModel | any = req.user
     const { isContestWork, participants, clubs, content, kinds } = req.body
@@ -86,7 +95,7 @@ const deleteArticle = async (req: Request, res: Response) => {
     const articleID = req.params["id"]
     if (!isValidObjectId(articleID)) {
         return res.status(404).send()
-}
+    }
     const isArticleExists = await Article.exists({ _id: articleID })
     if (!isArticleExists) {
         return res.status(404).send()
@@ -101,8 +110,27 @@ const deleteArticle = async (req: Request, res: Response) => {
     return res.status(200).send()
 }
 
-const getArticle = (req: Request, res: Response) => {
-    // get an article by id
+const getArticles = (req: Request, res: Response) => {
+    //const isContestWork: boolean = JSON.parse(req.query.isContestWork as string)
+    const isContestWork: boolean = nullableJSONParse(req.query.isContestWork)
+    const kinds: Kind[] = nullableJSONParse(req.query.kinds)
+    const clubs: Club[] = nullableJSONParse(req.query.clubs)
+    const page: number | undefined = req.query.page
+        ? +(req.query.page as string)
+        : undefined
+    const per_page: number | undefined = req.query.per_page
+        ? +(req.query.per_page as string)
+        : undefined
+
+    // filtering feature here
+
+    return res.send({
+        isContestWork: isContestWork,
+        kinds: kinds,
+        clubs: clubs,
+        page: page,
+        per_page: per_page,
+    })
 }
 
-export { getArticles, addArticle, getArticle }
+export { addArticle, getArticle, updateArticle, deleteArticle, getArticles }
