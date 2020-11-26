@@ -79,10 +79,26 @@ const updateArticle = async (req: Request, res: Response) => {
 
     return res.send(article)
 }
-}
 
-const addArticle = (req: Request, res: Response) => {
-    // add an article
+const deleteArticle = async (req: Request, res: Response) => {
+    const currentUser: UserModel | any = req.user
+
+    const articleID = req.params["id"]
+    if (!isValidObjectId(articleID)) {
+        return res.status(404).send()
+}
+    const isArticleExists = await Article.exists({ _id: articleID })
+    if (!isArticleExists) {
+        return res.status(404).send()
+    }
+
+    const article = await Article.findById(articleID)
+    if (article?.writer !== currentUser.username) {
+        return res.status(403).send()
+    }
+    await Article.findOneAndDelete({ _id: articleID })
+
+    return res.status(200).send()
 }
 
 const getArticle = (req: Request, res: Response) => {
