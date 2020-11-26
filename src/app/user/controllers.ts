@@ -3,6 +3,7 @@ import passport from "passport"
 import jwt from "jsonwebtoken"
 import { ErrorType } from "errors"
 import { User } from "./models"
+import env from "config/env"
 import getErrorMessage from "utils/errors"
 import { createHashedPassword } from "utils/user"
 
@@ -47,7 +48,7 @@ const createToken = (req: Request, res: Response) => {
                 }
                 return res.status(400).json(response).send()
             }
-            const token = jwt.sign(user, process.env.JWT_SECRET || "default")
+            const token = jwt.sign(user, env.JWT_SECRET)
             return res.json({ user, token }).send()
         })
     }
