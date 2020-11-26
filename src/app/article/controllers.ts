@@ -53,6 +53,32 @@ const getArticle = async (req: Request, res: Response) => {
     const article = await Article.findById(req.params["id"])
     return res.send(article)
 }
+
+const updateArticle = async (req: Request, res: Response) => {
+    const currentUser: UserModel | any = req.user
+
+    const articleID = req.params["id"]
+    if (!isValidObjectId(articleID)) {
+        return res.status(404).send()
+    }
+    const isArticleExists = await Article.exists({ _id: articleID })
+    if (!isArticleExists) {
+        return res.status(404).send()
+    }
+
+    let article = await Article.findById(articleID)
+    if (article?.writer !== currentUser.username) {
+        return res.status(403).send()
+    }
+
+    for (let key in req.body)
+        if (article?.get(key) && article?.get(key) !== req.body[key])
+            article.set(key, req.body[key])
+
+    await article?.save()
+
+    return res.send(article)
+}
 }
 
 const addArticle = (req: Request, res: Response) => {
