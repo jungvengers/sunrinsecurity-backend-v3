@@ -411,7 +411,6 @@ describe("Article", () => {
                     })
                     .expect(200)
                 const data = JSON.parse(response.text)
-                console.log(data.participants)
 
                 assert.deepStrictEqual(data.participants, ["김x규1", "김x규2"])
             })
@@ -490,14 +489,7 @@ describe("Article", () => {
         })
     })
 
-    /*describe("Get Articles", function () {
-        testData.forEach(async (data) => {
-            await createArticle(data, token)
-        })
-        console.log(`${testData.length} test data created.`)
-
-        let isContestWorkCnt = 0
-        let isNotContestWorkCnt = 0
+    describe("Get Articles", function () {
         let layer7ClubCnt = 0
         let unifoxClubCnt = 0
         let teamlogClubCnt = 0
@@ -508,148 +500,182 @@ describe("Article", () => {
         let securityKindCnt = 0
         let networkKindCnt = 0
 
-        for (let i = 0; i < testData.length; i++) {
-            if (testData[i].isContestWork) {
-                isContestWorkCnt++
-            } else {
-                isNotContestWorkCnt++
-            }
-            if (testData[i].clubs.includes("Layer7")) {
-                layer7ClubCnt++
-            }
-            if (testData[i].clubs.includes("TeamLog")) {
-                teamlogClubCnt++
-            }
-            if (testData[i].clubs.includes("Unifox")) {
-                unifoxClubCnt++
-            }
-            if (testData[i].clubs.includes("Nefus")) {
-                nefusClubCnt++
-            }
-            if (testData[i].kinds.includes("web")) {
-                webKindCnt++
-            }
-            if (testData[i].kinds.includes("iot")) {
-                iotKindCnt++
-            }
-            if (testData[i].kinds.includes("app")) {
-                appKindCnt++
-            }
-            if (testData[i].kinds.includes("security")) {
-                securityKindCnt++
-            }
-            if (testData[i].kinds.includes("network")) {
-                networkKindCnt++
-            }
-        }
+        beforeEach(async function () {
+            for (let i = 0; i < testData.length; i++)
+                await createArticle(testData[i], token)
+        })
+
         // parameter based filtering feature should be tested
         describe("Filter", function () {
             describe("isContestWork", function () {
-                it(`Number of isContestWork articles should be ${isContestWorkCnt}`, async function () {
+                it(`Number of isContestWork articles should be the same as test data`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ isContestWork: true })
+                        .get("/article?isContestWork=true")
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, isContestWorkCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.isContestWork) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of isNotContestWork articles should be ${isNotContestWorkCnt}`, async function () {
+                it(`Number of isNotContestWork articles should be the same as test data`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ isContestWork: false })
+                        .get("/article?isContestWork=false")
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(
-                        data.articles.length,
-                        isNotContestWorkCnt
-                    )
+
+                    testData.forEach(function (data) {
+                        if (!data.isContestWork) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
             })
             describe("club", function () {
-                it(`Number of layer7Club articles should be ${layer7ClubCnt}`, async function () {
+                it(`Number of layer7Club articles should be the same as test data`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ clubs: ["Layer7"] })
+                        .get('/article?clubs=["Layer7"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, layer7ClubCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.clubs.includes("Layer7")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of unifoxClub articles should be ${unifoxClubCnt}`, async function () {
+                it(`Number of unifoxClub articles should be the same as test data`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ clubs: ["Unifox"] })
+                        .get('/article?clubs=["Unifox"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, unifoxClubCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.clubs.includes("Unifox")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of nefusClub articles should be ${nefusClubCnt}`, async function () {
+                it(`Number of nefusClub articles should be the same as test data`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ clubs: ["Nefus"] })
+                        .get('/article?clubs=["Nefus"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, nefusClubCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.clubs.includes("Nefus")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
                 it(`Number of teamlogClub articles should be ${teamlogClubCnt}`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ clubs: ["TeamLog"] })
+                        .get('/article?clubs=["TeamLog"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, teamlogClubCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.clubs.includes("TeamLog")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
             })
             describe("kind", function () {
                 it(`Number of webKind articles should be ${webKindCnt}`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ kinds: ["web"] })
+                        .get('/article?kinds=["web"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, webKindCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.kinds.includes("web")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
                 it(`Number of iotKind articles should be ${iotKindCnt}`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ kinds: ["iot"] })
+                        .get('/article?kinds=["iot"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, iotKindCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.kinds.includes("iot")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
                 it(`Number of appKind articles should be ${appKindCnt}`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ kinds: ["app"] })
+                        .get('/article?kinds=["app"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, appKindCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.kinds.includes("app")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
                 it(`Number of securityKind articles should be ${securityKindCnt}`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ kinds: ["security"] })
+                        .get('/article?kinds=["security"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, securityKindCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.kinds.includes("security")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
                 it(`Number of networkKind articles should be ${networkKindCnt}`, async function () {
+                    let contentsCnt = 0
                     const response = await request(app)
-                        .get("/article")
-                        .query({ kinds: ["network"] })
+                        .get('/article?kinds=["network"]')
                         .send()
                         .expect(200)
                     const data = JSON.parse(response.text)
-                    assert.strictEqual(data.articles.length, networkKindCnt)
+
+                    testData.forEach(function (data) {
+                        if (data.kinds.includes("network")) {
+                            contentsCnt++
+                        }
+                    })
+                    assert.strictEqual(data.articles.length, contentsCnt)
                 })
             })
         })
@@ -664,51 +690,30 @@ describe("Article", () => {
                 assert.strictEqual(data.articles.length, 4)
             })
             it("Should return proper articles with given parameters, which are page = 1, per_page = 4", async function () {
-                const articles = [
-                    {
-                        isContestWork: false,
-                        participants: ["김x규", "조x연", "양x준"],
-                        clubs: ["Layer7", "Unifox", "TeamLog"],
-                        content:
-                            "<p>Lorem Ipsum 1</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
-                        kinds: ["web"],
-                    },
-                    {
-                        isContestWork: false,
-                        participants: ["김x규", "조x연", "양x준"],
-                        clubs: ["Layer7", "Unifox", "TeamLog"],
-                        content:
-                            "<p>Lorem Ipsum 2</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
-                        kinds: ["web"],
-                    },
-                    {
-                        isContestWork: false,
-                        participants: ["김x규", "조x연", "양x준"],
-                        clubs: ["Layer7", "Unifox", "TeamLog"],
-                        content:
-                            "<p>Lorem Ipsum 3</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
-                        kinds: ["web"],
-                    },
-                    {
-                        isContestWork: true,
-                        participants: ["김x규", "조x연", "양x준", "지x보"],
-                        clubs: ["Layer7", "Unifox", "TeamLog"],
-                        content:
-                            "<p>Lorem Ipsum 4</p><p>대회 실적 true, 동아리 Layer7, Unifox, TeamLog 종류 web, app, security</p>",
-                        kinds: ["web", "app", "security"],
-                    },
-                ]
+                const articles = testData.slice(testData.length - 4).reverse()
+
                 const response = await request(app)
                     .get("/article")
                     .query({ page: 1, per_page: 4 })
                     .send()
                     .expect(200)
                 const data = JSON.parse(response.text)
-                assert.strictEqual(data.articles, articles)
+
+                console.log(articles)
+
+                for (let i = 0; i < data.articles.length; i++) {
+                    delete data.articles[i]["__v"]
+                    delete data.articles[i]["_id"]
+                    delete data.articles[i]["createdAt"]
+                    delete data.articles[i]["updatedAt"]
+                    delete data.articles[i]["writer"]
+                }
+
+                assert.deepStrictEqual(data.articles, articles)
             })
         })
         // pagination
-    })*/
+    })
 
     after(async () => {
         await Article.deleteMany({}, () => {})
