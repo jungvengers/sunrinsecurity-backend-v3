@@ -110,27 +110,38 @@ const deleteArticle = async (req: Request, res: Response) => {
     return res.status(200).send()
 }
 
-const getArticles = (req: Request, res: Response) => {
-    //const isContestWork: boolean = JSON.parse(req.query.isContestWork as string)
-    const isContestWork: boolean = nullableJSONParse(req.query.isContestWork)
-    const kinds: Kind[] = nullableJSONParse(req.query.kinds)
-    const clubs: Club[] = nullableJSONParse(req.query.clubs)
-    const page: number | undefined = req.query.page
-        ? +(req.query.page as string)
-        : undefined
-    const per_page: number | undefined = req.query.per_page
+const getArticles = async (req: Request, res: Response) => {
+    let page: number = (req.query.page ? +(req.query.page as string) : 1) - 1
+    page = page < 0 ? 0 : page
+    let per_page: number | undefined = req.query.per_page
         ? +(req.query.per_page as string)
-        : undefined
+        : 15
+    per_page = per_page < 0 ? 0 : per_page
 
+    const filterableFields = ["isContestWork", "kinds", "clubs"]
+
+    const findQuery: any = {}
+
+    filterableFields.forEach((field) => {
+        if (field in req.query) {
+            try {
+                findQuery[field] = {
+                    $in: JSON.parse(req.query[field] as string),
+                }
+            } catch (error) {}
+        }
+    })
+
+    const articles = await Article.find(findQuery)
+        .skip(page * per_page)
+        .limit(per_page)
+        .sort({ _id: -1 })
+
+    const articlesCount = await Article.countDocuments({})
+    const pages = Math.ceil(articlesCount / per_page)
     // filtering feature here
 
-    return res.send({
-        isContestWork: isContestWork,
-        kinds: kinds,
-        clubs: clubs,
-        page: page,
-        per_page: per_page,
-    })
+    return res.send({ articles: articles, pages_length: pages })
 }
 
 export { addArticle, getArticle, updateArticle, deleteArticle, getArticles }
