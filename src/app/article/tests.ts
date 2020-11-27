@@ -490,16 +490,6 @@ describe("Article", () => {
     })
 
     describe("Get Articles", function () {
-        let layer7ClubCnt = 0
-        let unifoxClubCnt = 0
-        let teamlogClubCnt = 0
-        let nefusClubCnt = 0
-        let webKindCnt = 0
-        let iotKindCnt = 0
-        let appKindCnt = 0
-        let securityKindCnt = 0
-        let networkKindCnt = 0
-
         beforeEach(async function () {
             for (let i = 0; i < testData.length; i++)
                 await createArticle(testData[i], token)
@@ -585,7 +575,7 @@ describe("Article", () => {
                     })
                     assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of teamlogClub articles should be ${teamlogClubCnt}`, async function () {
+                it(`Number of teamlogClub articles should be the same as test data`, async function () {
                     let contentsCnt = 0
                     const response = await request(app)
                         .get('/article?clubs=["TeamLog"]')
@@ -602,7 +592,7 @@ describe("Article", () => {
                 })
             })
             describe("kind", function () {
-                it(`Number of webKind articles should be ${webKindCnt}`, async function () {
+                it(`Number of webKind articles should be the same as test data`, async function () {
                     let contentsCnt = 0
                     const response = await request(app)
                         .get('/article?kinds=["web"]')
@@ -617,7 +607,7 @@ describe("Article", () => {
                     })
                     assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of iotKind articles should be ${iotKindCnt}`, async function () {
+                it(`Number of iotKind articles should be the same as test data`, async function () {
                     let contentsCnt = 0
                     const response = await request(app)
                         .get('/article?kinds=["iot"]')
@@ -632,7 +622,7 @@ describe("Article", () => {
                     })
                     assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of appKind articles should be ${appKindCnt}`, async function () {
+                it(`Number of appKind articles should be the same as test data`, async function () {
                     let contentsCnt = 0
                     const response = await request(app)
                         .get('/article?kinds=["app"]')
@@ -647,7 +637,7 @@ describe("Article", () => {
                     })
                     assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of securityKind articles should be ${securityKindCnt}`, async function () {
+                it(`Number of securityKind articles should be the same as test data`, async function () {
                     let contentsCnt = 0
                     const response = await request(app)
                         .get('/article?kinds=["security"]')
@@ -662,7 +652,7 @@ describe("Article", () => {
                     })
                     assert.strictEqual(data.articles.length, contentsCnt)
                 })
-                it(`Number of networkKind articles should be ${networkKindCnt}`, async function () {
+                it(`Number of networkKind articles should be $the same as test data`, async function () {
                     let contentsCnt = 0
                     const response = await request(app)
                         .get('/article?kinds=["network"]')
@@ -698,8 +688,6 @@ describe("Article", () => {
                     .send()
                     .expect(200)
                 const data = JSON.parse(response.text)
-
-                console.log(articles)
 
                 for (let i = 0; i < data.articles.length; i++) {
                     delete data.articles[i]["__v"]
