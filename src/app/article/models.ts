@@ -1,4 +1,3 @@
-import { User } from "app/user/models"
 import { Schema, model, Document } from "mongoose"
 
 enum Club {
@@ -19,23 +18,42 @@ enum Kind {
     network = "network",
 }
 
-export interface ArticleModel extends Document {
+interface ArticleModel {
+    writer: string
     isContestWork: boolean
-    participator: string[]
-    club: Club[]
+    participants: string[]
+    clubs: Club[]
     content: string
-    kind: Kind[]
+    kinds: Kind[]
 }
 
-const articleSchema: Schema<ArticleModel> = new Schema({
-    writer: { type: User.schema, required: true },
-    isContestWork: { type: Boolean, required: true },
-    participator: { type: String, required: true },
-    club: { type: [String], enum: Object.keys(Club) },
-    content: { type: String, required: true },
-    kind: { type: [String], enum: Object.keys(Kind), required: true },
-})
+interface ArticleModelDocument extends Document, ArticleModel {}
+
+const articleSchema: Schema<ArticleModelDocument> = new Schema(
+    {
+        writer: { type: String, required: true },
+        isContestWork: { type: Boolean, required: true },
+        participants: { type: [String], required: true },
+        clubs: { type: [String], enum: Object.keys(Club), default: [] },
+        content: { type: String, required: true },
+        kinds: {
+            type: [String],
+            enum: Object.keys(Kind),
+            required: true,
+            default: [],
+        },
+    },
+    { timestamps: true }
+)
 
 articleSchema.index({ username: 1 })
 
-export const Article = model<ArticleModel>("Article", articleSchema)
+const Article = model<ArticleModelDocument>("Article", articleSchema)
+
+export {
+    Club,
+    Kind,
+    ArticleModel,
+    ArticleModelDocument as ArticleModelSchema,
+    Article,
+}

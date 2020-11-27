@@ -9,8 +9,8 @@
     "dev": "cross-env NODE_PATH=src/ nodemon --exec ts-node src/index.ts",
     "test": "export NODE_ENV=test;cross-env NODE_PATH=src/ ts-mocha -p ./tsconfig.json ./src/app/*/tests.ts",
     "build": "tsc -p .",
-    "start": "cross-env NODE_PATH=dist/ node dist/index.js",
-    "production-start": "cross-env NODE_PATH=dist/ pm2 start -i max dist/index.js"
+    "start": "cross-env NODE_PATH=dist/ node dist/index.ts",
+    "production-start": "cross-env NODE_PATH=dist/ pm2 start -i max dist/index.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -23,9 +23,7 @@
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "swagger-jsdoc": "^5.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

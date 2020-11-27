@@ -5,20 +5,20 @@ import { validationResultChecker } from "middlewares"
 
 const router = Router()
 
-const registerValidator = [
+const registerMiddlewares = [
     body("username").notEmpty(),
     body("password").notEmpty(),
     body("alias").notEmpty(),
     validationResultChecker,
 ]
 
-const authValidator = [
+const authMiddlewares = [
     body("username").notEmpty(),
     body("password").notEmpty(),
     validationResultChecker,
 ]
 
-router.post("/register", registerValidator, register)
-router.post("/auth/token", authValidator, createToken)
+router.post("/register", registerMiddlewares, register)
+router.post("/auth/token", authMiddlewares, createToken)
 
 export default router
