@@ -8,9 +8,16 @@ import getErrorMessage from "utils/errors"
 import { createHashedPassword } from "utils/user"
 
 const register = async (req: Request, res: Response) => {
-    const { username, password, alias } = req.body
+    const { username, password, alias, secret_code } = req.body
     const hashedPassword = createHashedPassword(password)
     const isExistingUser = await User.exists({ username: username })
+
+    if (env.REGISTRATION_SECRET !== secret_code) {
+        return res
+            .status(400)
+            .json(getErrorMessage(ErrorType.WrongRegistrationKey))
+            .send()
+    }
 
     if (isExistingUser) {
         return res

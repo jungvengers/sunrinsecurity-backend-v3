@@ -6,6 +6,7 @@ import { User } from "app/user/models"
 import connectDB from "config/connectDB"
 import getErrorMessage from "utils/errors"
 import { ErrorType } from "errors"
+import env from "config/env"
 
 const username = "testaccount"
 const password = "testpassword"
@@ -25,6 +26,7 @@ describe("User", async function () {
                         username: username,
                         password: password,
                         alias: "thetestaccount",
+                        secret_code: env.REGISTRATION_SECRET,
                     })
                     .expect(201)
             })
@@ -37,6 +39,7 @@ describe("User", async function () {
                     .send({
                         username: "testaccount",
                         alias: "thetestaccount",
+                        secret_code: env.REGISTRATION_SECRET,
                     })
                     .expect(400)
                 const { errorType } = JSON.parse(response.text)
@@ -48,6 +51,7 @@ describe("User", async function () {
                     .send({
                         password: "testpassword1234",
                         alias: "thetestaccount",
+                        secret_code: env.REGISTRATION_SECRET,
                     })
                     .expect(400)
                 const { errorType } = JSON.parse(response.text)
@@ -60,10 +64,24 @@ describe("User", async function () {
                         username: "testaccount",
                         password: "testpassword1234",
                         alias: "thetestaccount",
+                        secret_code: env.REGISTRATION_SECRET,
                     })
                     .expect(400)
                 const { errorType } = JSON.parse(response.text)
                 assert.strictEqual(errorType, ErrorType.UserExists)
+            })
+            it("Wrong Secret Code", async function () {
+                const response = await request(app)
+                    .post("/user/register")
+                    .send({
+                        username: "testaccount",
+                        password: "testpassword1234",
+                        alias: "thetestaccount",
+                        secret_code: "wrong",
+                    })
+                    .expect(400)
+                const { errorType } = JSON.parse(response.text)
+                assert.strictEqual(errorType, ErrorType.WrongRegistrationKey)
             })
         })
     })
