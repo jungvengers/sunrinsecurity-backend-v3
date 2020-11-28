@@ -49,7 +49,7 @@ describe("Media", function () {
                     .post("/media")
                     .set("Authorization", "Bearer " + token)
                     .attach("attachment", "tests/media/IMG_1057.jpeg")
-                    .expect(200)
+                    .expect(201)
             })
         })
     })
