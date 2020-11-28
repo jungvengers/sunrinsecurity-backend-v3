@@ -9,6 +9,7 @@ const registerMiddlewares = [
     body("username").notEmpty(),
     body("password").notEmpty(),
     body("alias").notEmpty(),
+    body("secret_code").notEmpty(),
     validationResultChecker,
 ]
 
