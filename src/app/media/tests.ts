@@ -1,14 +1,9 @@
 import fs from "fs"
 import path from "path"
-import assert from "assert"
 import request from "supertest"
-import mongoose from "mongoose"
 import app from "app"
 import { User } from "app/user/models"
 import connectDB from "config/connectDB"
-import getErrorMessage from "utils/errors"
-import { ErrorType } from "errors"
-import env from "config/env"
 import { createHashedPassword } from "utils/user"
 
 const username = "testaccount"
@@ -41,6 +36,28 @@ describe("Media", function () {
                     .post("/media")
                     .attach("attachment", "tests/media/IMG_1057.jpeg")
                     .expect(401)
+            })
+            it("Empty Attachment", async function () {
+                await request(app)
+                    .post("/media")
+                    .set("Authorization", "Bearer " + token)
+                    .expect(400)
+            })
+            it("Not file", async function () {
+                await request(app)
+                    .post("/media")
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        attachment: "nothing",
+                    })
+                    .expect(400)
+            })
+            it("Not proper extension", async function () {
+                await request(app)
+                    .post("/media")
+                    .set("Authorization", "Bearer " + token)
+                    .attach("attachment", "tests/media/empty.nothing")
+                    .expect(400)
             })
         })
         describe("Success cases", function () {
