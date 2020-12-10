@@ -25,11 +25,12 @@ const isFile = (req: Request, _: Response, next: Function) => {
     if (req.file === undefined) {
         next(ErrorType.ValidationError)
         return
-    } else if (req.file) {
+    } else {
         const filename = req.file.filename
         const fileExtension = path.extname(filename).toLowerCase()
         if (!isImage(fileExtension)) {
             next(ErrorType.ValidationError)
+            return
         }
     }
     next()
