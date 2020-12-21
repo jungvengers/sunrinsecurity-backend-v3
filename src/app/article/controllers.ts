@@ -3,20 +3,20 @@ import { Article, Club, Kind } from "app/article/models"
 import { UserModel } from "app/user/models"
 import { isValidObjectId } from "mongoose"
 
-const nullableJSONParse = (value: any) => {
-    try {
-        return JSON.parse(value as any)
-    } catch (error) {
-        console.log(error)
-    }
-    return null
-}
-
 const addArticle = async (req: Request, res: Response) => {
     const currentUser: UserModel | any = req.user
-    const { isContestWork, participants, clubs, content, kinds } = req.body
+    const {
+        isContestWork,
+        participants,
+        clubs,
+        content,
+        kinds,
+        images,
+    } = req.body
     const clubsEnum: Club[] = []
     const kindsEnum: Kind[] = []
+    const imageNames: string[] = []
+
     Array.isArray(clubs)
         ? clubs.forEach((club) => {
               if (club in Club) {
@@ -31,6 +31,15 @@ const addArticle = async (req: Request, res: Response) => {
               }
           })
         : null
+    // Filter enum values in clubs and kinds
+
+    Array.isArray(images)
+        ? images.forEach((image) => {
+              if (typeof image === "string") {
+                  imageNames.push(image)
+              }
+          })
+        : null
 
     const articleDocument = {
         writer: currentUser.username,
@@ -39,6 +48,7 @@ const addArticle = async (req: Request, res: Response) => {
         clubs: clubsEnum,
         content: content,
         kinds: kindsEnum,
+        images: imageNames,
     }
 
     try {
@@ -75,14 +85,51 @@ const updateArticle = async (req: Request, res: Response) => {
         return res.status(404).send()
     }
 
+    // club, kinds, images fix
+
     let article = await Article.findById(articleID)
     if (article?.writer !== currentUser.username) {
         return res.status(403).send()
     }
 
     for (let key in req.body)
-        if (article?.get(key) && article?.get(key) !== req.body[key])
+        if (article?.get(key) && article?.get(key) !== req.body[key]) {
+            if (key === "clubs") {
+                const clubs = req.body["clubs"]
+                const clubsEnum: Club[] = []
+                Array.isArray(clubs)
+                    ? clubs.forEach((club) => {
+                          if (club in Club) {
+                              clubsEnum.push(club)
+                          }
+                      })
+                    : null
+                req.body[key] = clubsEnum
+            } else if (key === "kinds") {
+                const kinds = req.body["kinds"]
+                const kindsEnum: Kind[] = []
+                Array.isArray(kinds)
+                    ? kinds.forEach((kind) => {
+                          if (kind in Kind) {
+                              kindsEnum.push(kind)
+                          }
+                      })
+                    : null
+                req.body[key] = kindsEnum
+            } else if (key === "images") {
+                const images = req.body["images"]
+                const imageNames: string[] = []
+                Array.isArray(images)
+                    ? images.forEach((image) => {
+                          if (typeof image === "string") {
+                              imageNames.push(image)
+                          }
+                      })
+                    : null
+                req.body[key] = imageNames
+            }
             article.set(key, req.body[key])
+        }
 
     await article?.save()
 
@@ -119,7 +166,6 @@ const getArticles = async (req: Request, res: Response) => {
     per_page = per_page < 0 ? 0 : per_page
 
     const filterableFields = ["isContestWork", "kinds", "clubs"]
-
     const findQuery: any = {}
 
     filterableFields.forEach((field) => {

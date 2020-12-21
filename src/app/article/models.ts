@@ -25,6 +25,7 @@ interface ArticleModel {
     clubs: Club[]
     content: string
     kinds: Kind[]
+    images: string[]
 }
 
 interface ArticleModelDocument extends Document, ArticleModel {}
@@ -42,6 +43,7 @@ const articleSchema: Schema<ArticleModelDocument> = new Schema(
             required: true,
             default: [],
         },
+        images: { type: [String], default: [] },
     },
     { timestamps: true }
 )
