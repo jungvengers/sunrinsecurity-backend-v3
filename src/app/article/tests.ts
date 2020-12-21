@@ -222,7 +222,7 @@ describe("Article", () => {
                     assert.strictEqual(details[0].param, "participants")
                 })
             })
-            describe("Parameter Content", function () {
+            describe("Parameter content", function () {
                 it("No Content, should return 400 with error response", async function () {
                     const response = await request(app)
                         .post("/article")
@@ -306,6 +306,23 @@ describe("Article", () => {
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
                 })
+                it("With images", async function () {
+                    const body = {
+                        isContestWork: true,
+                        participants: participants,
+                        clubs: clubs,
+                        content: content,
+                        kinds: kinds,
+                        images: ["image"],
+                    }
+                    const response = await request(app)
+                        .post("/article")
+                        .set("Authorization", "Bearer " + token)
+                        .send(body)
+                        .expect(201)
+                    const data = JSON.parse(response.text)
+                    assert.strictEqual("_id" in data, true)
+                })
             })
             describe("not isContestWork", function () {
                 it("With clubs", async function () {
@@ -338,7 +355,23 @@ describe("Article", () => {
                         .expect(201)
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
-                })
+                }),
+                    it("With images", async function () {
+                        const body = {
+                            isContestWork: false,
+                            participants: participants,
+                            content: content,
+                            kinds: kinds,
+                            images: ["image"],
+                        }
+                        const response = await request(app)
+                            .post("/article")
+                            .set("Authorization", "Bearer " + token)
+                            .send(body)
+                            .expect(201)
+                        const data = JSON.parse(response.text)
+                        assert.strictEqual("_id" in data, true)
+                    })
             })
         })
     })
@@ -695,6 +728,7 @@ describe("Article", () => {
                     delete data.articles[i]["createdAt"]
                     delete data.articles[i]["updatedAt"]
                     delete data.articles[i]["writer"]
+                    delete data.articles[i]["images"]
                 }
 
                 assert.deepStrictEqual(data.articles, articles)
