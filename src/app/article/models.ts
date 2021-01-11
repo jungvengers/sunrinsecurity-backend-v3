@@ -26,6 +26,7 @@ interface ArticleModel {
     content: string
     kinds: Kind[]
     images: string[]
+    youtubeURLs: string[]
 }
 
 interface ArticleModelDocument extends Document, ArticleModel {}
@@ -44,6 +45,7 @@ const articleSchema: Schema<ArticleModelDocument> = new Schema(
             default: [],
         },
         images: { type: [String], default: [] },
+        youtubeURLs: { type: [String], default: [] },
     },
     { timestamps: true }
 )
