@@ -74,6 +74,29 @@ const updateNotice = async (req: Request, res: Response) => {
 
     for (let key in req.body) {
         if (notice?.get(key) && notice?.get(key) !== req.body[key]) {
+            if (key === "images") {
+                const images = req.body["images"]
+                const imageNames: string[] = []
+                Array.isArray(images)
+                    ? images.forEach((image) => {
+                          if (typeof image === "string") {
+                              imageNames.push(image)
+                          }
+                      })
+                    : null
+                req.body[key] = imageNames
+            } else if (key === "youtubeURLs") {
+                const youtubeURLs = req.body["youtubeURLs"]
+                const youtubeURLList: string[] = []
+                Array.isArray(youtubeURLs)
+                    ? youtubeURLs.forEach((youtubeURL) => {
+                          if (typeof youtubeURL === "string") {
+                              youtubeURLList.push(youtubeURL)
+                          }
+                      })
+                    : null
+                req.body[key] = youtubeURLList
+            }
             notice.set(key, req.body[key])
         }
     }
