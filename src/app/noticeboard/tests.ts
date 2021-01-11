@@ -118,6 +118,37 @@ describe("Noticeboard", () => {
                     })
                     .expect(201)
             })
+            it("With images", async function () {
+                const body = {
+                    title: title,
+                    content: content,
+                    images: ["image"],
+                }
+                const response = await request(app)
+                    .post("/noticeboard")
+                    .set("Authorization", "Bearer " + token)
+                    .send(body)
+                    .expect(201)
+                const data = JSON.parse(response.text)
+                assert.strictEqual("_id" in data, true)
+            })
+            it("With youtubeURLs", async function () {
+                const body = {
+                    title: title,
+                    content: content,
+                    youtube_urls: [
+                        "https://www.youtube.com/watch?v=lOrU0MH0bMk",
+                        "https://www.youtube.com/watch?v=486cFz09diA",
+                    ],
+                }
+                const response = await request(app)
+                    .post("/noticeboard")
+                    .set("Authorization", "Bearer " + token)
+                    .send(body)
+                    .expect(201)
+                const data = JSON.parse(response.text)
+                assert.strictEqual("_id" in data, true)
+            })
         })
     })
     describe("Get Notice", async function () {
