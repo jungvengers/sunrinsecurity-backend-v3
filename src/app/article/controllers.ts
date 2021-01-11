@@ -12,10 +12,12 @@ const addArticle = async (req: Request, res: Response) => {
         content,
         kinds,
         images,
+        youtube_urls,
     } = req.body
     const clubsEnum: Club[] = []
     const kindsEnum: Kind[] = []
     const imageNames: string[] = []
+    const youtubeURLs: string[] = []
 
     Array.isArray(clubs)
         ? clubs.forEach((club) => {
@@ -41,6 +43,14 @@ const addArticle = async (req: Request, res: Response) => {
           })
         : null
 
+    Array.isArray(youtube_urls)
+        ? youtube_urls.forEach((youtube_url) => {
+              if (typeof youtube_url === "string") {
+                  youtubeURLs.push(youtube_url)
+              }
+          })
+        : null
+
     const articleDocument = {
         writer: currentUser.username,
         isContestWork: isContestWork,
@@ -49,6 +59,7 @@ const addArticle = async (req: Request, res: Response) => {
         content: content,
         kinds: kindsEnum,
         images: imageNames,
+        youtubeURLs: youtubeURLs,
     }
 
     try {
@@ -84,8 +95,6 @@ const updateArticle = async (req: Request, res: Response) => {
     if (!isArticleExists) {
         return res.status(404).send()
     }
-
-    // club, kinds, images fix
 
     let article = await Article.findById(articleID)
     if (article?.writer !== currentUser.username) {

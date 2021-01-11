@@ -323,6 +323,26 @@ describe("Article", () => {
                     const data = JSON.parse(response.text)
                     assert.strictEqual("_id" in data, true)
                 })
+                it("With youtubeURLs", async function () {
+                    const body = {
+                        isContestWork: true,
+                        participants: participants,
+                        clubs: clubs,
+                        content: content,
+                        kinds: kinds,
+                        images: [
+                            "https://www.youtube.com/watch?v=lOrU0MH0bMk",
+                            "https://www.youtube.com/watch?v=486cFz09diA",
+                        ],
+                    }
+                    const response = await request(app)
+                        .post("/article")
+                        .set("Authorization", "Bearer " + token)
+                        .send(body)
+                        .expect(201)
+                    const data = JSON.parse(response.text)
+                    assert.strictEqual("_id" in data, true)
+                })
             })
             describe("not isContestWork", function () {
                 it("With clubs", async function () {
@@ -729,6 +749,7 @@ describe("Article", () => {
                     delete data.articles[i]["updatedAt"]
                     delete data.articles[i]["writer"]
                     delete data.articles[i]["images"]
+                    delete data.articles[i]["youtubeURLs"]
                 }
 
                 assert.deepStrictEqual(data.articles, articles)
