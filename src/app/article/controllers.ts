@@ -174,7 +174,7 @@ const getArticles = async (req: Request, res: Response) => {
         : 15
     per_page = per_page < 0 ? 0 : per_page
 
-    const filterableFields = ["isContestWork", "kinds", "clubs"]
+    const filterableFields = ["isContestWork", "kinds", "clubs", "writer"]
     const findQuery: any = {}
 
     filterableFields.forEach((field) => {
