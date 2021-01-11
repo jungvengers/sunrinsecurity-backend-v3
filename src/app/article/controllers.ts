@@ -12,12 +12,12 @@ const addArticle = async (req: Request, res: Response) => {
         content,
         kinds,
         images,
-        youtube_urls,
+        youtubeURLs,
     } = req.body
     const clubsEnum: Club[] = []
     const kindsEnum: Kind[] = []
     const imageNames: string[] = []
-    const youtubeURLs: string[] = []
+    const youtubeURLList: string[] = []
 
     Array.isArray(clubs)
         ? clubs.forEach((club) => {
@@ -43,10 +43,10 @@ const addArticle = async (req: Request, res: Response) => {
           })
         : null
 
-    Array.isArray(youtube_urls)
-        ? youtube_urls.forEach((youtube_url) => {
-              if (typeof youtube_url === "string") {
-                  youtubeURLs.push(youtube_url)
+    Array.isArray(youtubeURLs)
+        ? youtubeURLs.forEach((youtubeURL) => {
+              if (typeof youtubeURL === "string") {
+                  youtubeURLList.push(youtubeURL)
               }
           })
         : null
@@ -59,7 +59,7 @@ const addArticle = async (req: Request, res: Response) => {
         content: content,
         kinds: kindsEnum,
         images: imageNames,
-        youtubeURLs: youtubeURLs,
+        youtubeURLs: youtubeURLList,
     }
 
     try {
@@ -136,6 +136,17 @@ const updateArticle = async (req: Request, res: Response) => {
                       })
                     : null
                 req.body[key] = imageNames
+            } else if (key === "youtubeURLs") {
+                const youtubeURLs = req.body["youtubeURLs"]
+                const youtubeURLList: string[] = []
+                Array.isArray(youtubeURLs)
+                    ? youtubeURLs.forEach((youtubeURL) => {
+                          if (typeof youtubeURL === "string") {
+                              youtubeURLList.push(youtubeURL)
+                          }
+                      })
+                    : null
+                req.body[key] = youtubeURLList
             }
             article.set(key, req.body[key])
         }
