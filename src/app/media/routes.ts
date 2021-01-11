@@ -8,17 +8,9 @@ import getErrorMessage from "utils/errors"
 
 const router = Router()
 
-const isImage = (fileExtension: string) => {
-    switch (fileExtension) {
-        case ".jpg":
-            return true
-        case ".jpeg":
-            return true
-        case ".png":
-            return true
-        default:
-            return false
-    }
+const isProperExtension = (fileExtension: string) => {
+    const acceptableExtensions = [".jpg", ".jpeg", ".png", ".pdf", ".zip"]
+    return acceptableExtensions.includes(fileExtension)
 }
 
 const isFile = (req: Request, _: Response, next: Function) => {
@@ -28,7 +20,7 @@ const isFile = (req: Request, _: Response, next: Function) => {
     } else {
         const filename = req.file.filename
         const fileExtension = path.extname(filename).toLowerCase()
-        if (!isImage(fileExtension)) {
+        if (!isProperExtension(fileExtension)) {
             next(ErrorType.ValidationError)
             return
         }

@@ -52,7 +52,7 @@ describe("Media", function () {
                     })
                     .expect(400)
             })
-            it("Not proper extension", async function () {
+            it("Not a proper extension", async function () {
                 await request(app)
                     .post("/media")
                     .set("Authorization", "Bearer " + token)
@@ -61,11 +61,18 @@ describe("Media", function () {
             })
         })
         describe("Success cases", function () {
-            it("Proper Request", async function () {
+            it("Upload an image", async function () {
                 await request(app)
                     .post("/media")
                     .set("Authorization", "Bearer " + token)
                     .attach("attachment", "tests/media/IMG_1057.jpeg")
+                    .expect(201)
+            })
+            it("Upload an zip file", async function () {
+                await request(app)
+                    .post("/media")
+                    .set("Authorization", "Bearer " + token)
+                    .attach("attachment", "tests/media/empty.zip")
                     .expect(201)
             })
         })
