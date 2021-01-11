@@ -330,7 +330,7 @@ describe("Article", () => {
                         clubs: clubs,
                         content: content,
                         kinds: kinds,
-                        youtube_urls: [
+                        youtubeURLs: [
                             "https://www.youtube.com/watch?v=lOrU0MH0bMk",
                             "https://www.youtube.com/watch?v=486cFz09diA",
                         ],
