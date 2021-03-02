@@ -103,14 +103,4 @@ describe("Media", function () {
             })
         })
     })
-
-    after(async function () {
-        const directory = "media"
-
-        fs.readdir(directory, (_err, files) => {
-            files.forEach((file) => {
-                fs.unlink(path.join(directory, file), () => {})
-            })
-        })
-    })
 })
