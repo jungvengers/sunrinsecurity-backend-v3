@@ -5,6 +5,8 @@ import { uploadMedia } from "app/media/controllers"
 import fileUploader from "config/fileUploader"
 import { ErrorType } from "errors"
 import getErrorMessage from "utils/errors"
+import { s3Upload } from "utils/s3Upload"
+import { join } from "path"
 
 const router = Router()
 
@@ -52,11 +54,26 @@ const isFileErrorHandler = (
     }
 }
 
+const mediaPath = join(__dirname, "../../../media")
+
+const ncpUpload = async (req: Request, res: Response, next: Function) => {
+    try {
+        if (req.file === undefined) {
+            return next()
+        }
+        await s3Upload(`${mediaPath}/${req.file.filename}`, req.file.filename)
+        return next()
+    } catch {
+        return next()
+    }
+}
+
 const uploadMiddlewares = [
     passport.authenticate("jwt", { session: false }),
     fileUploader.single("attachment"),
     isFile,
     isFileErrorHandler,
+    ncpUpload
 ]
 
 router.post("/", uploadMiddlewares, uploadMedia)
