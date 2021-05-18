@@ -1,20 +1,23 @@
 import fs from "fs"
-import path from "path"
+import { join } from "path"
 import request from "supertest"
 import app from "app"
 import { User } from "app/user/models"
 import connectDB from "config/connectDB"
 import { createHashedPassword } from "utils/user"
+import axios from "axios"
+import assert from "assert"
 
 const username = "testaccount"
 const password = "testpassword"
 
 describe("Media", function () {
     let token = ""
+    const fileList: string[] = []
     before(async function () {
         connectDB()
 
-        await User.deleteMany({}, () => {})
+        await User.deleteMany({}, () => { })
 
         const hashedPassword = createHashedPassword(password)
         await User.create({
@@ -28,6 +31,12 @@ describe("Media", function () {
             password: password,
         })
         token = JSON.parse(response.text).token
+    })
+    after(function () {
+        for (const file of fileList) {
+            const path = join(__dirname, "..", "..", "..", "media", file)
+            fs.unlink(path, (err) => err ? console.log(err) : null)
+        }
     })
     describe("Upload Image", function () {
         describe("Failure cases", function () {
@@ -62,18 +71,22 @@ describe("Media", function () {
         })
         describe("Success cases", function () {
             it("Upload an image", async function () {
-                await request(app)
+                const response = await request(app)
                     .post("/media")
                     .set("Authorization", "Bearer " + token)
                     .attach("attachment", "tests/media/IMG_1057.jpeg")
                     .expect(201)
+
+                fileList.push(JSON.parse(response.text).filename)
             })
             it("Upload an zip file", async function () {
-                await request(app)
+                const response = await request(app)
                     .post("/media")
                     .set("Authorization", "Bearer " + token)
                     .attach("attachment", "tests/media/empty.zip")
                     .expect(201)
+
+                fileList.push(JSON.parse(response.text).filename)
             })
         })
     })
@@ -85,6 +98,7 @@ describe("Media", function () {
                 .set("Authorization", "Bearer " + token)
                 .attach("attachment", "tests/media/IMG_1057.jpeg")
             filename = JSON.parse(response.text).filename
+            fileList.push(filename)
         })
         describe("Failure cases", function () {
             it("Should return 404 for no filename", async function () {
@@ -100,6 +114,26 @@ describe("Media", function () {
                     .get("/media/" + filename)
                     .send()
                     .expect(200)
+            })
+        })
+    })
+    describe("Get S3 File", function () {
+        describe("Failure cases", function () {
+            it("Should return 403 for Access Forbidden", async function () {
+                const response = await axios.get(
+                    "https://kr.object.ncloudstorage.com/sunrin-test/test.png"
+                ).catch(err => err)
+                assert.strictEqual(response.response.status, 403)
+            })
+        })
+        describe("Success Cases", function () {
+            it("Should return 200 OK", async function () {
+                for (const file of fileList) {
+                    const response = await axios.get(
+                        `https://kr.object.ncloudstorage.com/sunrin-test/${file}`
+                    )
+                    assert.strictEqual(response.status, 200)
+                }
             })
         })
     })
