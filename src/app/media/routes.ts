@@ -5,7 +5,7 @@ import { uploadMedia } from "app/media/controllers"
 import fileUploader from "config/fileUploader"
 import { ErrorType } from "errors"
 import getErrorMessage from "utils/errors"
-import { s3Upload } from "utils/s3Upload"
+import { s3Upload } from "utils/s3upload"
 import { join } from "path"
 
 const router = Router()
