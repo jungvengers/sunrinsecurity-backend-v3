@@ -1,12 +1,9 @@
-import dotenv from "dotenv"
-dotenv.config()
+import app from "app"
 
 import express from "express"
 import { ErrorType, errorMessages } from "errors"
 import connectDB from "config/connectDB"
 connectDB()
-
-import app from "app"
 
 app.get("/custom-errors", (req: express.Request, res: express.Response) => {
     res.json({
