@@ -45,13 +45,13 @@ describe("Media", function () {
                     .post("/media")
                     .attach("attachment", "tests/media/IMG_1057.jpeg")
                     .expect(401)
-            })
+            }).timeout(10000)
             it("Empty Attachment", async function () {
                 await request(app)
                     .post("/media")
                     .set("Authorization", "Bearer " + token)
                     .expect(400)
-            })
+            }).timeout(10000)
             it("Not file", async function () {
                 await request(app)
                     .post("/media")
@@ -60,7 +60,7 @@ describe("Media", function () {
                         attachment: "nothing",
                     })
                     .expect(400)
-            })
+            }).timeout(10000)
             it("Not a proper extension", async function () {
                 await request(app)
                     .post("/media")
@@ -68,7 +68,7 @@ describe("Media", function () {
                     .attach("attachment", "tests/media/empty.nothing")
                     .expect(400)
             })
-        })
+        }).timeout(50000)
         describe("Success cases", function () {
             it("Upload an image", async function () {
                 const response = await request(app)
@@ -78,7 +78,7 @@ describe("Media", function () {
                     .expect(201)
 
                 fileList.push(JSON.parse(response.text).filename)
-            })
+            }).timeout(10000)
             it("Upload an zip file", async function () {
                 const response = await request(app)
                     .post("/media")
@@ -87,12 +87,13 @@ describe("Media", function () {
                     .expect(201)
 
                 fileList.push(JSON.parse(response.text).filename)
-            })
-        })
-    })
+            }).timeout(10000)
+        }).timeout(50000)
+    }).timeout(100000)
     describe("Download Image", function () {
         let filename = ""
         before("Upload image", async function () {
+            this.timeout(10000)
             const response = await request(app)
                 .post("/media")
                 .set("Authorization", "Bearer " + token)
@@ -103,10 +104,10 @@ describe("Media", function () {
         describe("Failure cases", function () {
             it("Should return 404 for no filename", async function () {
                 await request(app).get("/media").send().expect(404)
-            })
+            }).timeout(10000)
             it("Should return 404 for media not found", async function () {
                 await request(app).get("/media/notfilename").send().expect(404)
-            })
+            }).timeout(10000)
         })
         describe("Success Cases", function () {
             it("Should return 200 OK", async function () {
@@ -114,9 +115,9 @@ describe("Media", function () {
                     .get("/media/" + filename)
                     .send()
                     .expect(200)
-            })
+            }).timeout(10000)
         })
-    })
+    }).timeout(50000)
     describe("Get S3 File", function () {
         describe("Failure cases", function () {
             it("Should return 403 for Access Forbidden", async function () {
@@ -124,7 +125,7 @@ describe("Media", function () {
                     "https://kr.object.ncloudstorage.com/sunrin-test/test.png"
                 ).catch(err => err)
                 assert.strictEqual(response.response.status, 403)
-            })
+            }).timeout(10000)
         })
         describe("Success Cases", function () {
             it("Should return 200 OK", async function () {
@@ -134,7 +135,7 @@ describe("Media", function () {
                     )
                     assert.strictEqual(response.status, 200)
                 }
-            })
-        })
+            }).timeout(10000)
+        }).timeout(50000)
     })
 })
