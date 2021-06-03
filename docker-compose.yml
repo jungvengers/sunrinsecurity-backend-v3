@@ -4,6 +4,8 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
+    ports:
+      - "27017:27017"
     volumes:
       - /usr/local/var/mongodb:/data/db
     restart: "unless-stopped"
