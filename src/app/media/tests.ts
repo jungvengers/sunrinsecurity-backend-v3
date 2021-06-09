@@ -128,7 +128,7 @@ describe("Media", function () {
             }).timeout(10000)
         })
         describe("Success Cases", function () {
-            it("Should return 200 OK", async function () {
+            if (!process.env.TRAVIS_PULL) it("Should return 200 OK", async function () {
                 for (const file of fileList) {
                     const response = await axios.get(
                         `https://kr.object.ncloudstorage.com/sunrin-test/${file}`

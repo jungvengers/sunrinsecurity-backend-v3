@@ -14,7 +14,8 @@ install:
   - yarn install
 
 script:
-  - yarn test
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ];export TRAVIS_PULL=true; yarn test; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false"]; yarn test; fi'
 
 after_success:
   - yarn run deploy
