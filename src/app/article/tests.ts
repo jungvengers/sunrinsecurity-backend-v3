@@ -141,8 +141,8 @@ describe("Article", () => {
     before(async function () {
         connectDB()
 
-        await User.deleteMany({}, () => {})
-        await Article.deleteMany({}, () => {})
+        await User.deleteMany({}, () => { })
+        await Article.deleteMany({}, () => { })
 
         const hashedPassword = createHashedPassword(password)
         await User.create({
@@ -172,7 +172,7 @@ describe("Article", () => {
     })
 
     beforeEach(async function () {
-        await Article.deleteMany({}, () => {})
+        await Article.deleteMany({}, () => { })
     })
 
     describe("Add Article", function () {
@@ -314,6 +314,24 @@ describe("Article", () => {
                         content: content,
                         kinds: kinds,
                         images: ["image"],
+                    }
+                    const response = await request(app)
+                        .post("/article")
+                        .set("Authorization", "Bearer " + token)
+                        .send(body)
+                        .expect(201)
+                    const data = JSON.parse(response.text)
+                    assert.strictEqual("_id" in data, true)
+                })
+                it("With images & thumbnail", async function () {
+                    const body = {
+                        isContestWork: true,
+                        participants: participants,
+                        clubs: clubs,
+                        content: content,
+                        kinds: kinds,
+                        images: ["image"],
+                        thumbnail: "image"
                     }
                     const response = await request(app)
                         .post("/article")
@@ -750,6 +768,7 @@ describe("Article", () => {
                     delete data.articles[i]["writer"]
                     delete data.articles[i]["images"]
                     delete data.articles[i]["youtubeURLs"]
+                    delete data.articles[i]["thumbnail"]
                 }
 
                 assert.deepStrictEqual(data.articles, articles)
@@ -759,8 +778,8 @@ describe("Article", () => {
     })
 
     after(async () => {
-        await Article.deleteMany({}, () => {})
-        await User.deleteMany({}, () => {})
+        await Article.deleteMany({}, () => { })
+        await User.deleteMany({}, () => { })
         await mongoose.disconnect()
     })
 })

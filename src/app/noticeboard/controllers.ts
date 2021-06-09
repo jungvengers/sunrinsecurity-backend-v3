@@ -5,24 +5,24 @@ import { isValidObjectId } from "mongoose"
 
 const addNotice = async (req: Request, res: Response) => {
     const currentUser: UserModel | any = req.user
-    const { title, content, images, youtubeURLs } = req.body
+    const { title, content, images, youtubeURLs, thumbnail } = req.body
     const imageNames: string[] = []
     const youtubeURLList: string[] = []
 
     Array.isArray(images)
         ? images.forEach((image) => {
-              if (typeof image === "string") {
-                  imageNames.push(image)
-              }
-          })
+            if (typeof image === "string") {
+                imageNames.push(image)
+            }
+        })
         : null
 
     Array.isArray(youtubeURLs)
         ? youtubeURLs.forEach((youtubeURL) => {
-              if (typeof youtubeURL === "string") {
-                  youtubeURLList.push(youtubeURL)
-              }
-          })
+            if (typeof youtubeURL === "string") {
+                youtubeURLList.push(youtubeURL)
+            }
+        })
         : null
 
     const noticeDocument = {
@@ -30,6 +30,7 @@ const addNotice = async (req: Request, res: Response) => {
         title: title,
         content: content,
         images: imageNames,
+        thumbnail: thumbnail,
         youtubeURLs: youtubeURLList,
     }
 
@@ -79,10 +80,10 @@ const updateNotice = async (req: Request, res: Response) => {
                 const imageNames: string[] = []
                 Array.isArray(images)
                     ? images.forEach((image) => {
-                          if (typeof image === "string") {
-                              imageNames.push(image)
-                          }
-                      })
+                        if (typeof image === "string") {
+                            imageNames.push(image)
+                        }
+                    })
                     : null
                 req.body[key] = imageNames
             } else if (key === "youtubeURLs") {
@@ -90,10 +91,10 @@ const updateNotice = async (req: Request, res: Response) => {
                 const youtubeURLList: string[] = []
                 Array.isArray(youtubeURLs)
                     ? youtubeURLs.forEach((youtubeURL) => {
-                          if (typeof youtubeURL === "string") {
-                              youtubeURLList.push(youtubeURL)
-                          }
-                      })
+                        if (typeof youtubeURL === "string") {
+                            youtubeURLList.push(youtubeURL)
+                        }
+                    })
                     : null
                 req.body[key] = youtubeURLList
             }

@@ -29,7 +29,7 @@ interface ArticleModel {
     youtubeURLs: string[]
 }
 
-interface ArticleModelDocument extends Document, ArticleModel {}
+interface ArticleModelDocument extends Document, ArticleModel { }
 
 const articleSchema: Schema<ArticleModelDocument> = new Schema(
     {
@@ -45,6 +45,7 @@ const articleSchema: Schema<ArticleModelDocument> = new Schema(
             default: [],
         },
         images: { type: [String], default: [] },
+        thumbnail: { type: String, default: "" },
         youtubeURLs: { type: [String], default: [] },
     },
     { timestamps: true }
