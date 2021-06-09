@@ -5,7 +5,7 @@ import { isValidObjectId } from "mongoose"
 
 const addNotice = async (req: Request, res: Response) => {
     const currentUser: UserModel | any = req.user
-    const { title, content, images, youtubeURLs, thumbnail } = req.body
+    const { title, content, images, youtubeURLs } = req.body
     const imageNames: string[] = []
     const youtubeURLList: string[] = []
 
@@ -30,7 +30,6 @@ const addNotice = async (req: Request, res: Response) => {
         title: title,
         content: content,
         images: imageNames,
-        thumbnail: thumbnail,
         youtubeURLs: youtubeURLList,
     }
 
