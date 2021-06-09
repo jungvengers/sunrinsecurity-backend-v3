@@ -528,7 +528,6 @@ describe("Article", () => {
                     })
                     .expect(200)
                 const data = JSON.parse(response.text)
-                console.log(data)
                 assert.deepStrictEqual(data.thumbnail, "testtest")
             })
             it("Update images", async function () {
