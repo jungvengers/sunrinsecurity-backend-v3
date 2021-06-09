@@ -12,6 +12,7 @@ const addArticle = async (req: Request, res: Response) => {
         content,
         kinds,
         images,
+        thumbnail,
         youtubeURLs,
     } = req.body
     const clubsEnum: Club[] = []
@@ -21,34 +22,34 @@ const addArticle = async (req: Request, res: Response) => {
 
     Array.isArray(clubs)
         ? clubs.forEach((club) => {
-              if (club in Club) {
-                  clubsEnum.push(club)
-              }
-          })
+            if (club in Club) {
+                clubsEnum.push(club)
+            }
+        })
         : null
     Array.isArray(kinds)
         ? kinds.forEach((kind) => {
-              if (kind in Kind) {
-                  kindsEnum.push(kind)
-              }
-          })
+            if (kind in Kind) {
+                kindsEnum.push(kind)
+            }
+        })
         : null
     // Filter enum values in clubs and kinds
 
     Array.isArray(images)
         ? images.forEach((image) => {
-              if (typeof image === "string") {
-                  imageNames.push(image)
-              }
-          })
+            if (typeof image === "string") {
+                imageNames.push(image)
+            }
+        })
         : null
 
     Array.isArray(youtubeURLs)
         ? youtubeURLs.forEach((youtubeURL) => {
-              if (typeof youtubeURL === "string") {
-                  youtubeURLList.push(youtubeURL)
-              }
-          })
+            if (typeof youtubeURL === "string") {
+                youtubeURLList.push(youtubeURL)
+            }
+        })
         : null
 
     const articleDocument = {
@@ -59,6 +60,7 @@ const addArticle = async (req: Request, res: Response) => {
         content: content,
         kinds: kindsEnum,
         images: imageNames,
+        thumbnail: thumbnail,
         youtubeURLs: youtubeURLList,
     }
 
@@ -100,18 +102,17 @@ const updateArticle = async (req: Request, res: Response) => {
     if (article?.writer !== currentUser.username) {
         return res.status(403).send()
     }
-
-    for (let key in req.body)
-        if (article?.get(key) && article?.get(key) !== req.body[key]) {
+    for (const key in req.body)
+        if ((article?.get(key) || key === "thumbnail") && (article?.get(key) !== req.body[key])) {
             if (key === "clubs") {
                 const clubs = req.body["clubs"]
                 const clubsEnum: Club[] = []
                 Array.isArray(clubs)
                     ? clubs.forEach((club) => {
-                          if (club in Club) {
-                              clubsEnum.push(club)
-                          }
-                      })
+                        if (club in Club) {
+                            clubsEnum.push(club)
+                        }
+                    })
                     : null
                 req.body[key] = clubsEnum
             } else if (key === "kinds") {
@@ -119,10 +120,10 @@ const updateArticle = async (req: Request, res: Response) => {
                 const kindsEnum: Kind[] = []
                 Array.isArray(kinds)
                     ? kinds.forEach((kind) => {
-                          if (kind in Kind) {
-                              kindsEnum.push(kind)
-                          }
-                      })
+                        if (kind in Kind) {
+                            kindsEnum.push(kind)
+                        }
+                    })
                     : null
                 req.body[key] = kindsEnum
             } else if (key === "images") {
@@ -130,10 +131,10 @@ const updateArticle = async (req: Request, res: Response) => {
                 const imageNames: string[] = []
                 Array.isArray(images)
                     ? images.forEach((image) => {
-                          if (typeof image === "string") {
-                              imageNames.push(image)
-                          }
-                      })
+                        if (typeof image === "string") {
+                            imageNames.push(image)
+                        }
+                    })
                     : null
                 req.body[key] = imageNames
             } else if (key === "youtubeURLs") {
@@ -141,14 +142,14 @@ const updateArticle = async (req: Request, res: Response) => {
                 const youtubeURLList: string[] = []
                 Array.isArray(youtubeURLs)
                     ? youtubeURLs.forEach((youtubeURL) => {
-                          if (typeof youtubeURL === "string") {
-                              youtubeURLList.push(youtubeURL)
-                          }
-                      })
+                        if (typeof youtubeURL === "string") {
+                            youtubeURLList.push(youtubeURL)
+                        }
+                    })
                     : null
                 req.body[key] = youtubeURLList
             }
-            article.set(key, req.body[key])
+            article?.set(key, req.body[key])
         }
 
     await article?.save()
@@ -194,7 +195,7 @@ const getArticles = async (req: Request, res: Response) => {
                 findQuery[field] = {
                     $in: JSON.parse(req.query[field] as string),
                 }
-            } catch (error) {}
+            } catch (error) { }
         }
     })
 

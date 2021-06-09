@@ -8,7 +8,7 @@ interface NoticeModel {
     youtubeURLs: string[]
 }
 
-interface NoticeModelDocument extends Document, NoticeModel {}
+interface NoticeModelDocument extends Document, NoticeModel { }
 
 const noticeSchema: Schema<NoticeModelDocument> = new Schema(
     {

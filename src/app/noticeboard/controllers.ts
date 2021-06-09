@@ -11,18 +11,18 @@ const addNotice = async (req: Request, res: Response) => {
 
     Array.isArray(images)
         ? images.forEach((image) => {
-              if (typeof image === "string") {
-                  imageNames.push(image)
-              }
-          })
+            if (typeof image === "string") {
+                imageNames.push(image)
+            }
+        })
         : null
 
     Array.isArray(youtubeURLs)
         ? youtubeURLs.forEach((youtubeURL) => {
-              if (typeof youtubeURL === "string") {
-                  youtubeURLList.push(youtubeURL)
-              }
-          })
+            if (typeof youtubeURL === "string") {
+                youtubeURLList.push(youtubeURL)
+            }
+        })
         : null
 
     const noticeDocument = {
@@ -79,10 +79,10 @@ const updateNotice = async (req: Request, res: Response) => {
                 const imageNames: string[] = []
                 Array.isArray(images)
                     ? images.forEach((image) => {
-                          if (typeof image === "string") {
-                              imageNames.push(image)
-                          }
-                      })
+                        if (typeof image === "string") {
+                            imageNames.push(image)
+                        }
+                    })
                     : null
                 req.body[key] = imageNames
             } else if (key === "youtubeURLs") {
@@ -90,10 +90,10 @@ const updateNotice = async (req: Request, res: Response) => {
                 const youtubeURLList: string[] = []
                 Array.isArray(youtubeURLs)
                     ? youtubeURLs.forEach((youtubeURL) => {
-                          if (typeof youtubeURL === "string") {
-                              youtubeURLList.push(youtubeURL)
-                          }
-                      })
+                        if (typeof youtubeURL === "string") {
+                            youtubeURLList.push(youtubeURL)
+                        }
+                    })
                     : null
                 req.body[key] = youtubeURLList
             }
