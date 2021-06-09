@@ -531,6 +531,20 @@ describe("Article", () => {
                 console.log(data)
                 assert.deepStrictEqual(data.thumbnail, "testtest")
             })
+            it("Update images", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                const response = await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        images: ["testtest"]
+                    })
+                    .expect(200)
+                const data = JSON.parse(response.text)
+                assert.deepStrictEqual(data.images, ["testtest"])
+            })
         })
     })
     describe("Delete Article", async function () {
