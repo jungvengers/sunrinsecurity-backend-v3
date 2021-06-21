@@ -23,6 +23,7 @@ interface ArticleModel {
     isContestWork: boolean
     participants: string[]
     clubs: Club[]
+    title: string
     content: string
     kinds: Kind[]
     images: string[]
@@ -37,6 +38,7 @@ const articleSchema: Schema<ArticleModelDocument> = new Schema(
         isContestWork: { type: Boolean, required: true },
         participants: { type: [String], required: true },
         clubs: { type: [String], enum: Object.keys(Club), default: [] },
+        title: { type: String, required: true },
         content: { type: String, required: true },
         kinds: {
             type: [String],
