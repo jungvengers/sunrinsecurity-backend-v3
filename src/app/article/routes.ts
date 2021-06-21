@@ -14,6 +14,7 @@ const router = Router()
 
 const addArticleMiddlewares = [
     passport.authenticate("jwt", { session: false }),
+    body("title").notEmpty(),
     body("isContestWork").notEmpty(),
     body("isContestWork").isBoolean(),
     body("participants").notEmpty(),
