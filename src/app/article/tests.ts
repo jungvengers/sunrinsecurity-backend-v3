@@ -12,6 +12,7 @@ const testData = [
     {
         isContestWork: true,
         participants: ["김x연", "김x규"],
+        title: "타이틀1",
         clubs: ["Layer7"],
         content: "<p>대회 실적 true, 동아리 Layer7, 종류 iot</p>",
         kinds: ["iot"],
@@ -19,6 +20,7 @@ const testData = [
     {
         isContestWork: false,
         participants: ["양x준"],
+        title: "타이틀2",
         clubs: ["TeamLog"],
         content: "<p>대회 실적 false, 동아리 TeamLog, 종류 web, network</p>",
         kinds: ["web", "network"],
@@ -26,6 +28,7 @@ const testData = [
     {
         isContestWork: false,
         participants: ["김x규", "조x연", "양x준"],
+        title: "타이틀3",
         clubs: ["Layer7", "Unifox", "TeamLog"],
         content:
             "<p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
@@ -34,6 +37,7 @@ const testData = [
     {
         isContestWork: false,
         participants: ["김x규", "양x준"],
+        title: "타이틀4",
         clubs: ["Layer7", "TeamLog"],
         content:
             "<p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 app, web</p>",
@@ -43,6 +47,7 @@ const testData = [
         isContestWork: false,
         participants: ["김x규", "조x연", "양x준"],
         clubs: ["Layer7", "Unifox", "TeamLog"],
+        title: "타이틀5",
         content:
             "<p>Lorem Ipsum 1</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
         kinds: ["web"],
@@ -50,6 +55,7 @@ const testData = [
     {
         isContestWork: false,
         participants: ["김x규", "조x연", "양x준"],
+        title: "타이틀6",
         clubs: ["Layer7", "Unifox", "TeamLog"],
         content:
             "<p>Lorem Ipsum 2</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
@@ -58,6 +64,7 @@ const testData = [
     {
         isContestWork: false,
         participants: ["김x규", "조x연", "양x준"],
+        title: "타이틀7",
         clubs: ["Layer7", "Unifox", "TeamLog"],
         content:
             "<p>Lorem Ipsum 3</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
@@ -67,6 +74,7 @@ const testData = [
         isContestWork: true,
         participants: ["김x규", "조x연", "양x준", "지x보"],
         clubs: ["Layer7", "Unifox", "TeamLog"],
+        title: "타이틀8",
         content:
             "<p>Lorem Ipsum 4</p><p>대회 실적 true, 동아리 Layer7, Unifox, TeamLog 종류 web, app, security</p>",
         kinds: ["web", "app", "security"],
@@ -75,6 +83,7 @@ const testData = [
         isContestWork: true,
         participants: ["김x규", "조x연", "양x준"],
         clubs: ["Layer7", "Unifox", "TeamLog"],
+        title: "타이틀9",
         content:
             "<p>Lorem Ipsum 5</p><p>대회 실적 true, 동아리 Layer7, Unifox, TeamLog 종류 web, app</p>",
         kinds: ["web", "app"],
@@ -83,6 +92,7 @@ const testData = [
         isContestWork: false,
         participants: ["김x규", "조x연", "양x준"],
         clubs: ["Layer7", "Unifox", "TeamLog"],
+        title: "타이틀10",
         content:
             "<p>Lorem Ipsum 6</p><p>대회 실적 false, 동아리 Layer7, Unifox, TeamLog 종류 web</p>",
         kinds: ["web"],
@@ -91,6 +101,7 @@ const testData = [
         isContestWork: false,
         participants: ["김x규", "김x태", "양x준"],
         clubs: ["Layer7", "TeamLog"],
+        title: "타이틀11",
         content:
             "<p>Lorem Ipsum 7</p><p>대회 실적 false, 동아리 Layer7, TeamLog 종류 web, ai, security</p>",
         kinds: ["web", "ai", "security"],
@@ -99,6 +110,7 @@ const testData = [
         isContestWork: false,
         participants: ["김x규", "지x보", "양x준"],
         clubs: ["Layer7", "TeamLog"],
+        title: "타이틀12",
         content:
             "<p>Lorem Ipsum 8</p><p>대회 실적 false, 동아리 Layer7, TeamLog 종류 web, app</p>",
         kinds: ["web", "app"],
@@ -107,6 +119,7 @@ const testData = [
         isContestWork: false,
         participants: ["조x연", "양x준"],
         clubs: ["Unifox", "TeamLog"],
+        title: "타이틀13",
         content:
             "<p>Lorem Ipsum 9</p><p>대회 실적 false, 동아리 Unifox, TeamLog 종류 network, web</p>",
         kinds: ["network", "web"],
@@ -114,6 +127,7 @@ const testData = [
     {
         isContestWork: false,
         participants: ["조x연", "양x준"],
+        title: "타이틀14",
         clubs: ["Unifox", "TeamLog"],
         content:
             "<p>Lorem Ipsum 10</p><p>대회 실적 false, 동아리 Unifox, TeamLog 종류 app</p>",
@@ -133,6 +147,7 @@ describe("Article", () => {
     const password = "testpassword"
     const participants = ["김x규", "양x준", "조x연"]
     const clubs = ["Layer7", "Unifox", "TeamLog"]
+    const title = "testTitle"
     const content = "<p>WE CREATED THIS SITE!</p>"
     const kinds = ["web"]
     let token = ""
@@ -184,6 +199,7 @@ describe("Article", () => {
                         isContestWork: false,
                         participants: participants,
                         clubs: clubs,
+                        title: title,
                         content: content,
                         kinds: kinds,
                     })
@@ -197,6 +213,7 @@ describe("Article", () => {
                         .send({
                             isContestWork: false,
                             clubs: clubs,
+                            title: title,
                             content: content,
                             kinds: kinds,
                         })
@@ -212,6 +229,7 @@ describe("Article", () => {
                         .send({
                             isContestWork: false,
                             participants: [],
+                            title: title,
                             clubs: clubs,
                             content: content,
                             kinds: kinds,
@@ -232,11 +250,30 @@ describe("Article", () => {
                             participants: participants,
                             clubs: clubs,
                             kinds: kinds,
+                            title: title,
                         })
                         .expect(400)
                     const { errorType, details } = JSON.parse(response.text)
                     assert.strictEqual(errorType, ErrorType.ValidationError)
                     assert.strictEqual(details[0].param, "content")
+                })
+            })
+            describe("Parameter title", function () {
+                it("No Title, should return 400 with error response", async function () {
+                    const response = await request(app)
+                        .post("/article")
+                        .set("Authorization", "Bearer " + token)
+                        .send({
+                            isContestWork: false,
+                            participants: participants,
+                            clubs: clubs,
+                            kinds: kinds,
+                            content: content
+                        })
+                        .expect(400)
+                    const { errorType, details } = JSON.parse(response.text)
+                    assert.strictEqual(errorType, ErrorType.ValidationError)
+                    assert.strictEqual(details[0].param, "title")
                 })
             })
             describe("Parameter kinds", function () {
@@ -247,6 +284,7 @@ describe("Article", () => {
                         .send({
                             isContestWork: false,
                             participants: participants,
+                            title: title,
                             clubs: clubs,
                             content: content,
                         })
@@ -264,6 +302,7 @@ describe("Article", () => {
                             participants: participants,
                             clubs: clubs,
                             content: content,
+                            title: title,
                             kinds: [],
                         })
                         .expect(400)
@@ -280,6 +319,7 @@ describe("Article", () => {
                         isContestWork: true,
                         participants: participants,
                         clubs: clubs,
+                        title: title,
                         content: content,
                         kinds: kinds,
                     }
@@ -296,6 +336,7 @@ describe("Article", () => {
                         isContestWork: true,
                         participants: participants,
                         content: content,
+                        title: title,
                         kinds: kinds,
                     }
                     const response = await request(app)
@@ -313,6 +354,7 @@ describe("Article", () => {
                         clubs: clubs,
                         content: content,
                         kinds: kinds,
+                        title: title,
                         images: ["image"],
                     }
                     const response = await request(app)
@@ -330,6 +372,7 @@ describe("Article", () => {
                         clubs: clubs,
                         content: content,
                         kinds: kinds,
+                        title: title,
                         images: ["image"],
                         thumbnail: "image"
                     }
@@ -347,6 +390,7 @@ describe("Article", () => {
                         participants: participants,
                         clubs: clubs,
                         content: content,
+                        title: title,
                         kinds: kinds,
                         youtubeURLs: [
                             "https://www.youtube.com/watch?v=lOrU0MH0bMk",
@@ -369,6 +413,7 @@ describe("Article", () => {
                         participants: participants,
                         clubs: clubs,
                         content: content,
+                        title: title,
                         kinds: kinds,
                     }
                     const response = await request(app)
@@ -384,6 +429,7 @@ describe("Article", () => {
                         isContestWork: false,
                         participants: participants,
                         content: content,
+                        title: title,
                         kinds: kinds,
                     }
                     const response = await request(app)
@@ -400,6 +446,7 @@ describe("Article", () => {
                             participants: participants,
                             content: content,
                             kinds: kinds,
+                            title: title,
                             images: ["image"],
                         }
                         const response = await request(app)
@@ -500,6 +547,23 @@ describe("Article", () => {
                 assert.strictEqual(
                     data.content,
                     "<p>그냥 테스트 수정입니다.</p>"
+                )
+            })
+            it("Updating title", async function () {
+                const id = JSON.parse(
+                    (await createArticle(testData[0], token)).text
+                )._id
+                const response = await request(app)
+                    .patch(`/article/${id}`)
+                    .set("Authorization", "Bearer " + token)
+                    .send({
+                        title: "하와와"
+                    })
+                    .expect(200)
+                const data = JSON.parse(response.text)
+                assert.strictEqual(
+                    data.title,
+                    "하와와"
                 )
             })
             it("Update kinds", async function () {
@@ -787,7 +851,6 @@ describe("Article", () => {
                     .send()
                     .expect(200)
                 const data = JSON.parse(response.text)
-
                 for (let i = 0; i < data.articles.length; i++) {
                     delete data.articles[i]["__v"]
                     delete data.articles[i]["_id"]
