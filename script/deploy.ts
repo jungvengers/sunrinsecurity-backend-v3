@@ -9,16 +9,8 @@ const deploy = async () => {
         host: process.env.HOST,
         username: process.env.ID,
         password: process.env.PW,
-        port: process.env.PORT || 22
+        port: process.env.PORT || 22,
     })
-
-    await ssh.execCommand(`
-        cd backend &&
-        git pull &&
-        yarn build &&
-        pm2 delete all &&
-        yarn production - start
-    `)
 
     process.exit(0)
 }
