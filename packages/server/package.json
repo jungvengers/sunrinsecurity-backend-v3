@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "rmagur1203 <41236839+rmagur1203@users.noreply.github.com>",
-  "homepage": "https://github.com/rmagur1203-template/Nest_Mono-Repo_Template#readme",
+  "homepage": "https://github.com/jungvengers/sunrinsecurity-backend-v3#readme",
   "license": "ISC",
   "main": "lib/server.js",
   "directories": {
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rmagur1203-template/Nest_Mono-Repo_Template.git"
+    "url": "git+https://github.com/jungvengers/sunrinsecurity-backend-v3.git"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -33,7 +33,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "bugs": {
-    "url": "https://github.com/rmagur1203-template/Nest_Mono-Repo_Template/issues"
+    "url": "https://github.com/jungvengers/sunrinsecurity-backend-v3/issues"
   },
   "dependencies": {
     "@nestjs/common": "^9.1.4",
@@ -41,7 +41,9 @@
     "@nestjs/core": "^9.1.4",
     "@nestjs/platform-express": "^9.1.4",
     "@nestjs/swagger": "^6.1.2",
+    "@types/passport": "^1.0.11",
     "cookie-parser": "^1.4.6",
+    "passport": "^0.6.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
