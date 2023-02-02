@@ -1,6 +1,29 @@
-# Sunrinsecurity Backend
+# Description
+Template of Monolithic Repository by Lerna with Nest.js
 
-[![Docker](https://github.com/jungvengers/sunrinsecurity-backend-v3/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/jungvengers/sunrinsecurity-backend-v3/actions/workflows/docker-publish.yml)
+# Bootstrap
+## Dependency Installation
+```
+npm i -g lerna
+lerna bootstrap
+```
 
-선린인터넷고등학교 정보보호과 페이지 <https://sunrinsecurity.com> 의 백엔드 서버입니다.  
-Typescript로 작성되었으며, 문서화가 필요한 내용들은 전부 팀 노션에 정리되어있습니다.  
+## Build
+```
+lerna run build
+```
+
+# Start
+## Production mode
+```
+lerna exec yarn -- start --scope=server
+```
+
+## Development mode
+```
+lerna exec yarn -- start:dev --scope=server
+```
+
+# Docs
+Before, Run the server in development mode<br>
+http://localhost:3000/document
