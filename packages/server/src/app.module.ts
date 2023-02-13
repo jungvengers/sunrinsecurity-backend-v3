@@ -11,7 +11,7 @@ import { DatabaseModule } from './database.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`../../../.env`, `.env`],
+      envFilePath: [`../../.env`, `.env`],
     }),
     DatabaseModule,
     NoticeModule,
