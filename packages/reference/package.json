@@ -1,0 +1,37 @@
+{
+  "name": "reference",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "rmagur1203 <41236839+rmagur1203@users.noreply.github.com>",
+  "homepage": "https://github.com/jungvengers/sunrinsecurity-backend-v3#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jungvengers/sunrinsecurity-backend-v3.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "tsc --build"
+  },
+  "bugs": {
+    "url": "https://github.com/jungvengers/sunrinsecurity-backend-v3/issues"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
+  }
+}

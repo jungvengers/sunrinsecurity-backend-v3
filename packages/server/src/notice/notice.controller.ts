@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
+import { Put } from '@nestjs/common/decorators';
 
 @Controller('notice')
 export class NoticeController {
@@ -20,6 +29,11 @@ export class NoticeController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.noticeService.findOne(+id);
+  }
+
+  @Put(':id')
+  replace(@Param('id') id: string, @Body() updateNoticeDto: CreateNoticeDto) {
+    return this.noticeService.update(+id, updateNoticeDto);
   }
 
   @Patch(':id')
