@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { Project } from './project/entities/project.entity';
+import { Club } from './club/entities/club.entity';
+import { Notice } from './notice/entities/notice.entity';
+import { Form } from './form/entities/form.entity';
+import { Application } from './application/entities/application.entity';
 
 @Module({
   imports: [
@@ -12,10 +17,9 @@ import { ConfigService } from '@nestjs/config';
         database: config.get<string>('DB_NAME'),
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
-        entities: [],
+        entities: [Project, Club, Notice, Form, Application],
         migrations: [],
         subscribers: [],
-        autoLoadEntities: true,
         synchronize: true,
         charset: 'utf8_general_ci',
       }),

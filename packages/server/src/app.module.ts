@@ -5,6 +5,7 @@ import { ProjectModule } from './project/project.module';
 import { ClubModule } from './club/club.module';
 import { ApplicationModule } from './application/application.module';
 import { FormModule } from './form/form.module';
+import { DatabaseModule } from './database.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { FormModule } from './form/form.module';
       isGlobal: true,
       envFilePath: [`../../../.env`, `.env`],
     }),
+    DatabaseModule,
     NoticeModule,
     ProjectModule,
     ClubModule,
