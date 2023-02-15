@@ -32,8 +32,8 @@ export class AuthController {
   @Get('/')
   @ApiBearerAuth()
   @UseGuards(AccessGuard)
-  hello() {
-    return 'Hello World!';
+  hello(@Req() req: Request) {
+    return req.user;
   }
 
   @Get('/google')

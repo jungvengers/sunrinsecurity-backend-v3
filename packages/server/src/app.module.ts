@@ -7,8 +7,8 @@ import { ApplicationModule } from './application/application.module';
 import { FormModule } from './form/form.module';
 import { DatabaseModule } from './database.module';
 import { ConfigValidator } from './validators/config';
-import { AdminService } from './admin/admin.service';
 import { AdminModule } from './admin/admin.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +18,7 @@ import { AdminModule } from './admin/admin.module';
       validationSchema: ConfigValidator,
     }),
     DatabaseModule,
+    AuthModule,
     NoticeModule,
     ProjectModule,
     ClubModule,
@@ -26,6 +27,6 @@ import { AdminModule } from './admin/admin.module';
     AdminModule,
   ],
   controllers: [],
-  providers: [AdminService],
+  providers: [],
 })
 export class AppModule {}

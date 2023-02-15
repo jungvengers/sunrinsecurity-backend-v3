@@ -1,6 +1,25 @@
-import { PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
+export enum AdminRole {
+  NONE = 'none',
+
+  ADMIN = 'admin',
+
+  LAYER7 = 'layer7',
+  TEAMLOG = 'teamlog',
+  UNIFOX = 'unifox',
+  NEFUS = 'nefus',
+  EMOTION = 'emotion',
+}
+@Entity()
 export class Admin {
-  @PrimaryColumn('string')
+  @PrimaryColumn()
   email!: string;
+
+  @Column({
+    type: 'enum',
+    enum: AdminRole,
+    default: AdminRole.NONE,
+  })
+  role!: AdminRole;
 }

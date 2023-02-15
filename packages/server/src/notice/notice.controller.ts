@@ -10,13 +10,17 @@ import {
 import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
-import { Put } from '@nestjs/common/decorators';
+import { Put, UseGuards } from '@nestjs/common';
+import { AdminGuard } from 'src/admin/guards/admin.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('notice')
 export class NoticeController {
   constructor(private readonly noticeService: NoticeService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
   create(@Body() createNoticeDto: CreateNoticeDto) {
     return this.noticeService.create(createNoticeDto);
   }
@@ -31,20 +35,16 @@ export class NoticeController {
     return this.noticeService.findOne(+id);
   }
 
-  /**
-   * @deprecated
-   */
-  @Put(':id')
-  replace(@Param('id') id: string, @Body() updateNoticeDto: CreateNoticeDto) {
-    return this.noticeService.update(+id, updateNoticeDto);
-  }
-
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateNoticeDto: UpdateNoticeDto) {
     return this.noticeService.update(+id, updateNoticeDto);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
   remove(@Param('id') id: string) {
     return this.noticeService.remove(+id);
   }

@@ -6,6 +6,7 @@ import { Club } from './club/entities/club.entity';
 import { Notice } from './notice/entities/notice.entity';
 import { Form } from './form/entities/form.entity';
 import { Application } from './application/entities/application.entity';
+import { Admin } from './admin/entities/admin.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { Application } from './application/entities/application.entity';
         database: config.get<string>('DB_NAME'),
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
-        entities: [Project, Club, Notice, Form, Application],
+        entities: [Project, Club, Notice, Form, Application, Admin],
         migrations: [],
         subscribers: [],
         synchronize: true,

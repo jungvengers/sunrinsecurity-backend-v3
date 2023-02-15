@@ -5,12 +5,14 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { AdminService } from './admin.service';
 import { Request } from 'express';
 import { AccessGuard } from 'src/auth/guards/access.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Get()
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   getAdmin() {
     return true;
@@ -23,7 +25,8 @@ export class AdminController {
   }
 
   @Get('regist')
-  @UseGuards([AccessGuard, DebugGuard])
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard, DebugGuard)
   registAdmin(@Req() req: Request) {
     return this.adminService.createAdmin(req.user!.email);
   }

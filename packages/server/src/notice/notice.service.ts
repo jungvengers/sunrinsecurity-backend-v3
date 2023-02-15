@@ -18,18 +18,22 @@ export class NoticeService {
   }
 
   findAll() {
-    return `This action returns all notice`;
+    const items = this.noticeRepository.find();
+    return items;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} notice`;
+    const item = this.noticeRepository.findOneBy({ id });
+    return item;
   }
 
   update(id: number, updateNoticeDto: UpdateNoticeDto) {
-    return `This action updates a #${id} notice`;
+    const item = this.noticeRepository.update(id, updateNoticeDto);
+    return item;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} notice`;
+    const item = this.noticeRepository.delete(id);
+    return item;
   }
 }

@@ -12,13 +12,10 @@ export class AuthService {
   ) {}
 
   public async generateRefreshToken(user: Express.User): Promise<string> {
-    const token = await this.jwtService.signAsync(
-      { email: user.email },
-      {
-        secret: this.configService.get('REFRESH_TOKEN_SECRET'),
-        expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRES_IN'),
-      },
-    );
+    const token = await this.jwtService.signAsync(user, {
+      secret: this.configService.get('REFRESH_TOKEN_SECRET'),
+      expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRES_IN'),
+    });
 
     this.refreshTokenStore.set(user.email, token);
 
@@ -30,6 +27,8 @@ export class AuthService {
     refreshToken: string,
   ): Promise<boolean> {
     try {
+      console.log('AuthService.validateRefreshToken', email, refreshToken);
+      console.log('AuthService.validateRefreshToken', this.refreshTokenStore);
       const token = await this.jwtService.verifyAsync(refreshToken, {
         secret: this.configService.get('REFRESH_TOKEN_SECRET'),
       });
@@ -44,13 +43,10 @@ export class AuthService {
   }
 
   public async generateAccessToken(user: Express.User): Promise<string> {
-    return await this.jwtService.signAsync(
-      { email: user.email },
-      {
-        secret: this.configService.get('ACCESS_TOKEN_SECRET'),
-        expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRES_IN'),
-      },
-    );
+    return await this.jwtService.signAsync(user, {
+      secret: this.configService.get('ACCESS_TOKEN_SECRET'),
+      expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRES_IN'),
+    });
   }
 
   public async validateAccessToken(
