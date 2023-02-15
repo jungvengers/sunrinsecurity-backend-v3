@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { AccessStrategy } from './strategies/access.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { RefreshStrategy } from './strategies/refresh.strategy';
+import { AdminService } from 'src/admin/admin.service';
 
 @Module({
   imports: [

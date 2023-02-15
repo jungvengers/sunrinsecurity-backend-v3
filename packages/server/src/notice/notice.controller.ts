@@ -31,6 +31,9 @@ export class NoticeController {
     return this.noticeService.findOne(+id);
   }
 
+  /**
+   * @deprecated
+   */
   @Put(':id')
   replace(@Param('id') id: string, @Body() updateNoticeDto: CreateNoticeDto) {
     return this.noticeService.update(+id, updateNoticeDto);

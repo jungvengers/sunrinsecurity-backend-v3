@@ -6,12 +6,16 @@ import { ClubModule } from './club/club.module';
 import { ApplicationModule } from './application/application.module';
 import { FormModule } from './form/form.module';
 import { DatabaseModule } from './database.module';
+import { ConfigValidator } from './validators/config';
+import { AdminService } from './admin/admin.service';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`../../.env`, `.env`],
+      validationSchema: ConfigValidator,
     }),
     DatabaseModule,
     NoticeModule,
@@ -19,8 +23,9 @@ import { DatabaseModule } from './database.module';
     ClubModule,
     ApplicationModule,
     FormModule,
+    AdminModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AdminService],
 })
 export class AppModule {}

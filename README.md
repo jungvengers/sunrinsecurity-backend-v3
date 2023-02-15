@@ -1,29 +1,38 @@
 # Description
-Template of Monolithic Repository by Lerna with Nest.js
+
+Backend server of [Sunrin Internet High School Information Security Department page](https://sunrinsecurity.com).
+Project based on Lerna and Nest.js.
 
 # Bootstrap
+
 ## Dependency Installation
+
 ```
-npm i -g lerna
+yarn global add lerna
 lerna bootstrap
 ```
 
 ## Build
+
 ```
 lerna run build
 ```
 
 # Start
+
 ## Production mode
+
 ```
 lerna exec yarn -- start --scope=server
 ```
 
 ## Development mode
+
 ```
 lerna exec yarn -- start:dev --scope=server
 ```
 
 # Docs
+
 Before, Run the server in development mode<br>
 http://localhost:3000/document
