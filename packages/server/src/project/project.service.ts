@@ -32,7 +32,7 @@ export class ProjectService {
     });
     return {
       items,
-      count: count / 4,
+      count: Math.ceil(count / 4),
     };
   }
 

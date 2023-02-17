@@ -29,7 +29,7 @@ export class NoticeService {
     });
     return {
       items,
-      count: count / 10,
+      count: Math.ceil(count / 10),
     };
   }
 
