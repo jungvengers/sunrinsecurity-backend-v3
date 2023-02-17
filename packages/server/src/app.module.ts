@@ -9,6 +9,7 @@ import { DatabaseModule } from './database.module';
 import { ConfigValidator } from './validators/config';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
     ApplicationModule,
     FormModule,
     AdminModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],

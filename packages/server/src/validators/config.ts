@@ -26,5 +26,8 @@ export const ConfigValidator = Joi.object({
   GOOGLE_CLIENT_SECRET: Joi.string().required(),
   GOOGLE_CALLBACK_URL: Joi.string().required(),
   FRONTEND_URL: Joi.string().required(),
+  AWS_ACCESS_KEY_ID: Joi.string().required(),
+  AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+  AWS_S3_BUCKET: Joi.string().required(),
   // ADMIN: Joi.array().items(Joi.string()).required(),
 });
