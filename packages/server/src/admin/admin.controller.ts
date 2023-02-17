@@ -21,7 +21,10 @@ export class AdminController {
   @Post()
   @UseGuards(DebugGuard)
   createAdmin(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.createAdmin(createAdminDto.email);
+    return this.adminService.createAdmin(
+      createAdminDto.email,
+      createAdminDto.role,
+    );
   }
 
   @Get('regist')
