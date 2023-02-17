@@ -72,7 +72,7 @@ export class Project {
    * @validationMessage 'Project image must be between 1 and 255 characters'
    * @validationMessage 'Project image is required'
    */
-  @Column()
+  @Column({ nullable: true })
   image!: string;
 
   /**

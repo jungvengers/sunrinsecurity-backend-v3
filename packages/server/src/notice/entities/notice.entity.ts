@@ -14,7 +14,7 @@ export class Notice {
   @Column()
   title!: string;
 
-  @Column()
+  @Column('text')
   content!: string;
 
   @Column()
