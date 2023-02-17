@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateNoticeDto {
   @ApiProperty({
-    example: '선린라이프 서비스 중단',
+    example: '선린라이프 서비스 중단 알림',
     description: '공지사항 제목',
   })
   title: string;
