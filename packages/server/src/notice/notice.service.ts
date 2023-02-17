@@ -14,7 +14,7 @@ export class NoticeService {
     private readonly noticeRepository: Repository<Notice>,
   ) {}
 
-  create(admin: Admin, createNoticeDto: CreateNoticeDto) {
+  async create(admin: Admin, createNoticeDto: CreateNoticeDto) {
     if (admin.role !== 'admin') {
       throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
     }
@@ -22,20 +22,23 @@ export class NoticeService {
     return this.noticeRepository.save(item);
   }
 
-  findAll(query: FindNoticeDto) {
-    const items = this.noticeRepository.find({
+  async findAll(query: FindNoticeDto) {
+    const [items, count] = await this.noticeRepository.findAndCount({
       skip: (query.page - 1) * 10,
       take: 10,
     });
-    return items;
+    return {
+      items,
+      count: count / 10,
+    };
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     const item = this.noticeRepository.findOneBy({ id });
     return item;
   }
 
-  update(admin: Admin, id: number, updateNoticeDto: UpdateNoticeDto) {
+  async update(admin: Admin, id: number, updateNoticeDto: UpdateNoticeDto) {
     if (admin.role !== 'admin') {
       throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
     }
@@ -43,7 +46,7 @@ export class NoticeService {
     return item;
   }
 
-  remove(admin: Admin, id: number) {
+  async remove(admin: Admin, id: number) {
     if (admin.role !== 'admin') {
       throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
     }

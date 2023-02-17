@@ -25,11 +25,15 @@ export class ProjectService {
   }
 
   async findAll(query: FindProjectDto) {
-    const items = this.projectRepository.find({
+    const [items, count] = await this.projectRepository.findAndCount({
       select: ['id', 'name', 'description', 'image', 'type', 'club'],
       skip: (query.page - 1) * 4,
       take: 4,
     });
+    return {
+      items,
+      count: count / 4,
+    };
   }
 
   async findOne(id: number) {
