@@ -23,6 +23,22 @@ export class FormService {
     return item;
   }
 
+  async create(admin: Admin, createFormDto: CreateFormDto) {
+    const club = await this.clubRepository.findOneBy({
+      id: createFormDto.clubid,
+    });
+    if (admin.role !== 'admin' && admin.role !== club?.name) {
+      throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
+    }
+    const item = createFormDto.questions?.reduce(
+      (acc, cur, idx) => ({ ...acc, [`question${idx + 1}`]: cur }),
+      { club: { id: createFormDto.clubid } },
+    ) ?? {
+      club: { id: createFormDto.clubid },
+    };
+    return this.formRepository.save(item);
+  }
+
   async update(admin: Admin, clubid: number, updateFormDto: UpdateFormDto) {
     const club = await this.clubRepository.findOneBy({ id: clubid });
     if (admin.role !== 'admin' && admin.role !== club?.name) {

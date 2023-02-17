@@ -1,14 +1,57 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateApplicationDto {
+  @ApiProperty({ example: 1, description: '동아리 ID' })
   clubid!: number;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 1',
+  })
   answer1!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 2',
+  })
   answer2!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 3',
+  })
   answer3!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 4',
+  })
   answer4!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 5',
+  })
   answer5!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 6',
+  })
   answer6!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 7',
+  })
   answer7!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 8',
+  })
   answer8!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 9',
+  })
   answer9!: string;
+  @ApiProperty({
+    example: '동아리 활동에 대해 알고 싶습니다.',
+    description: '응답 10',
+  })
   answer10!: string;
 
   constructor(

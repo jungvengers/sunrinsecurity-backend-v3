@@ -26,6 +26,14 @@ export class FormController {
     return this.formService.find(+id);
   }
 
+  @Post()
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
+  create(@Req() req: Request, @Body() createFormDto: CreateFormDto) {
+    const admin: Admin = req.user as any;
+    return this.formService.create(admin, createFormDto);
+  }
+
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
