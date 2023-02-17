@@ -14,8 +14,8 @@ export class AdminController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
-  getAdmin() {
-    return true;
+  getAdmin(@Req() req: Request) {
+    return req.user;
   }
 
   @Post()
