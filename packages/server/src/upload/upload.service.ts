@@ -20,7 +20,6 @@ export class UploadService {
       Bucket: this.awsS3Bucket,
       Key: file.originalname,
       Body: file.buffer,
-      ACL: 'public-read',
     };
 
     const result = await this.s3Storage.upload(params).promise();
