@@ -6,40 +6,50 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { AccessGuard } from 'src/auth/guards/access.guard';
+import { Request } from 'express';
 
 @Controller('application')
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
   @Post()
-  create(@Body() createApplicationDto: CreateApplicationDto) {
-    return this.applicationService.create(createApplicationDto);
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard)
+  create(
+    @Req() req: Request,
+    @Body() createApplicationDto: CreateApplicationDto,
+  ) {
+    return this.applicationService.create(req.user!, createApplicationDto);
   }
 
-  @Get()
-  findAll() {
-    return this.applicationService.findAll();
+  @Get(':clubid')
+  find(@Req() req: Request, @Param('clubid') clubid: string) {
+    return this.applicationService.find(req.user!, +clubid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.applicationService.findOne(+id);
-  }
-
-  @Patch(':id')
+  @Patch(':clubid')
   update(
-    @Param('id') id: string,
+    @Req() req: Request,
+    @Param('clubid') clubid: string,
     @Body() updateApplicationDto: UpdateApplicationDto,
   ) {
-    return this.applicationService.update(+id, updateApplicationDto);
+    return this.applicationService.update(
+      req.user!,
+      +clubid,
+      updateApplicationDto,
+    );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.applicationService.remove(+id);
+  @Delete(':clubid')
+  remove(@Req() req: Request, @Param('clubid') clubid: string) {
+    return this.applicationService.remove(req.user!, +clubid);
   }
 }

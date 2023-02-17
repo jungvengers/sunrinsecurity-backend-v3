@@ -1,14 +1,18 @@
+import { Club } from 'src/club/entities/club.entity';
 import {
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
+  ManyToOne,
 } from 'typeorm';
 
 export class Application {
   @PrimaryColumn()
   email!: string;
+
+  @ManyToOne(() => Club, (club) => club.applications)
+  club!: Club;
 
   @Column()
   answer1!: string;
