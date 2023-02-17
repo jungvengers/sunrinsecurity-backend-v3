@@ -6,13 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  Req,
 } from '@nestjs/common';
 import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
-import { Put, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { AdminGuard } from 'src/admin/guards/admin.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { FindNoticeDto } from './dto/find-notice.dto';
+import { Request } from 'express';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 @Controller('notice')
 export class NoticeController {
@@ -21,13 +26,14 @@ export class NoticeController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
-  create(@Body() createNoticeDto: CreateNoticeDto) {
-    return this.noticeService.create(createNoticeDto);
+  create(@Req() req: Request, @Body() createNoticeDto: CreateNoticeDto) {
+    const admin: Admin = req.user as any;
+    return this.noticeService.create(admin, createNoticeDto);
   }
 
   @Get()
-  findAll() {
-    return this.noticeService.findAll();
+  findAll(@Query() query: FindNoticeDto) {
+    return this.noticeService.findAll(query);
   }
 
   @Get(':id')
@@ -38,14 +44,20 @@ export class NoticeController {
   @Patch(':id')
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
-  update(@Param('id') id: string, @Body() updateNoticeDto: UpdateNoticeDto) {
-    return this.noticeService.update(+id, updateNoticeDto);
+  update(
+    @Req() req: Request,
+    @Param('id') id: string,
+    @Body() updateNoticeDto: UpdateNoticeDto,
+  ) {
+    const admin: Admin = req.user as any;
+    return this.noticeService.update(admin, +id, updateNoticeDto);
   }
 
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
-  remove(@Param('id') id: string) {
-    return this.noticeService.remove(+id);
+  remove(@Req() req: Request, @Param('id') id: string) {
+    const admin: Admin = req.user as any;
+    return this.noticeService.remove(admin, +id);
   }
 }

@@ -9,5 +9,6 @@ import { AdminStrategy } from './strategies/admin.strategy';
   imports: [TypeOrmModule.forFeature([Admin])],
   controllers: [AdminController],
   providers: [AdminService, AdminStrategy],
+  exports: [AdminService],
 })
 export class AdminModule {}

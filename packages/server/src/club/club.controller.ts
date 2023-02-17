@@ -6,18 +6,29 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ClubService } from './club.service';
 import { CreateClubDto } from './dto/create-club.dto';
 import { UpdateClubDto } from './dto/update-club.dto';
+import { AdminGuard } from 'src/admin/guards/admin.guard';
+import { Request } from 'express';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 @Controller('club')
 export class ClubController {
   constructor(private readonly clubService: ClubService) {}
 
   @Post()
-  create(@Body() createClubDto: CreateClubDto) {
-    return this.clubService.create(createClubDto);
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
+  create(@Req() req: Request, @Body() createClubDto: CreateClubDto) {
+    const admin = req.user as any;
+    return this.clubService.create(admin, createClubDto);
   }
 
   @Get()
@@ -31,12 +42,22 @@ export class ClubController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClubDto: UpdateClubDto) {
-    return this.clubService.update(+id, updateClubDto);
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
+  update(
+    @Req() req: Request,
+    @Param('id') id: string,
+    @Body() updateClubDto: UpdateClubDto,
+  ) {
+    const admin: Admin = req.user as any;
+    return this.clubService.update(admin, +id, updateClubDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clubService.remove(+id);
+  @ApiBearerAuth()
+  @UseGuards(AdminGuard)
+  remove(@Req() req: Request, @Param('id') id: string) {
+    const admin: Admin = req.user as any;
+    return this.clubService.remove(admin, +id);
   }
 }

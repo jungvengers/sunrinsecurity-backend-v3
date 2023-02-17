@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateClubDto } from './dto/create-club.dto';
 import { UpdateClubDto } from './dto/update-club.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Club } from './entities/club.entity';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 @Injectable()
 export class ClubService {
-  create(createClubDto: CreateClubDto) {
-    return 'This action adds a new club';
+  constructor(
+    @InjectRepository(Club)
+    private readonly clubRepository: Repository<Club>,
+  ) {}
+
+  async create(admin: Admin, createClubDto: CreateClubDto) {
+    if (admin.role !== 'admin') {
+      throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
+    }
+    const club = this.clubRepository.create(createClubDto);
+    return this.clubRepository.save(club);
   }
 
-  findAll() {
-    return `This action returns all club`;
+  async findAll() {
+    const items = this.clubRepository.find({
+      select: ['id', 'name'],
+    });
+    return items;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} club`;
+  async findOne(id: number) {
+    const item = this.clubRepository.findOneBy({ id });
+    if (!item) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return item;
   }
 
-  update(id: number, updateClubDto: UpdateClubDto) {
-    return `This action updates a #${id} club`;
+  async update(admin: Admin, id: number, updateClubDto: UpdateClubDto) {
+    const item = await this.clubRepository.findOneBy({ id });
+    if (admin.role !== 'admin' && admin.role !== item?.name) {
+      throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
+    }
+    return this.clubRepository.update(id, updateClubDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} club`;
+  async remove(admin: Admin, id: number) {
+    if (admin.role !== 'admin') {
+      throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
+    }
+    return this.clubRepository.delete(id);
   }
 }

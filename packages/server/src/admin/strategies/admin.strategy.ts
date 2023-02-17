@@ -18,6 +18,6 @@ export class AdminStrategy extends PassportStrategy(Strategy, 'admin') {
   }
 
   async validate(req: Request, { email }: Express.User) {
-    return !!(await this.adminService.getAdmin(email));
+    return await this.adminService.getAdmin(email);
   }
 }

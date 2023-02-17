@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Notice } from './entities/notice.entity';
 import { Repository } from 'typeorm';
+import { FindNoticeDto } from './dto/find-notice.dto';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 @Injectable()
 export class NoticeService {
@@ -12,13 +14,19 @@ export class NoticeService {
     private readonly noticeRepository: Repository<Notice>,
   ) {}
 
-  create(createNoticeDto: CreateNoticeDto) {
+  create(admin: Admin, createNoticeDto: CreateNoticeDto) {
+    if (admin.role !== 'admin') {
+      throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
+    }
     const item = this.noticeRepository.create(createNoticeDto);
     return this.noticeRepository.save(item);
   }
 
-  findAll() {
-    const items = this.noticeRepository.find();
+  findAll(query: FindNoticeDto) {
+    const items = this.noticeRepository.find({
+      skip: (query.page - 1) * 10,
+      take: 10,
+    });
     return items;
   }
 
@@ -27,12 +35,18 @@ export class NoticeService {
     return item;
   }
 
-  update(id: number, updateNoticeDto: UpdateNoticeDto) {
+  update(admin: Admin, id: number, updateNoticeDto: UpdateNoticeDto) {
+    if (admin.role !== 'admin') {
+      throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
+    }
     const item = this.noticeRepository.update(id, updateNoticeDto);
     return item;
   }
 
-  remove(id: number) {
+  remove(admin: Admin, id: number) {
+    if (admin.role !== 'admin') {
+      throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
+    }
     const item = this.noticeRepository.delete(id);
     return item;
   }

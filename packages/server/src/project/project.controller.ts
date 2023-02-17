@@ -6,23 +6,32 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { Request } from 'express';
+import { AdminGuard } from 'src/admin/guards/admin.guard';
+import { FindProjectDto } from './dto/find-project.dto';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectService.create(createProjectDto);
+  @UseGuards(AdminGuard)
+  create(@Req() req: Request, @Body() createProjectDto: CreateProjectDto) {
+    const admin: Admin = req.user as any;
+    return this.projectService.create(admin, createProjectDto);
   }
 
   @Get()
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Query() query: FindProjectDto) {
+    return this.projectService.findAll(query);
   }
 
   @Get(':id')
@@ -31,12 +40,20 @@ export class ProjectController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectService.update(+id, updateProjectDto);
+  @UseGuards(AdminGuard)
+  update(
+    @Req() req: Request,
+    @Param('id') id: string,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ) {
+    const admin: Admin = req.user as any;
+    return this.projectService.update(admin, +id, updateProjectDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectService.remove(+id);
+  @UseGuards(AdminGuard)
+  remove(@Req() req: Request, @Param('id') id: string) {
+    const admin: Admin = req.user as any;
+    return this.projectService.remove(admin, +id);
   }
 }
