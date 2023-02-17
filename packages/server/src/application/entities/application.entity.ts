@@ -5,8 +5,10 @@ import {
   UpdateDateColumn,
   PrimaryColumn,
   ManyToOne,
+  Entity,
 } from 'typeorm';
 
+@Entity()
 export class Application {
   @PrimaryColumn()
   email!: string;
