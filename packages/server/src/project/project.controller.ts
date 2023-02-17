@@ -17,12 +17,14 @@ import { Request } from 'express';
 import { AdminGuard } from 'src/admin/guards/admin.guard';
 import { FindProjectDto } from './dto/find-project.dto';
 import { Admin } from 'src/admin/entities/admin.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   create(@Req() req: Request, @Body() createProjectDto: CreateProjectDto) {
     const admin: Admin = req.user as any;
@@ -40,6 +42,7 @@ export class ProjectController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   update(
     @Req() req: Request,
@@ -51,6 +54,7 @@ export class ProjectController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @UseGuards(AdminGuard)
   remove(@Req() req: Request, @Param('id') id: string) {
     const admin: Admin = req.user as any;
