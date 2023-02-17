@@ -1,6 +1,7 @@
 import { Club } from 'src/club/entities/club.entity';
-import { PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, OneToOne, Entity } from 'typeorm';
 
+@Entity()
 export class Form {
   @PrimaryGeneratedColumn()
   readonly id!: number;

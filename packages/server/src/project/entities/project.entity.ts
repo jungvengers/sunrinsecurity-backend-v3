@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class Project {
   /**
    * The id of the project
@@ -55,7 +56,7 @@ export class Project {
    * @validationMessage 'Project detail must be between 1 and 255 characters'
    * @validationMessage 'Project detail is required'
    */
-  @Column('varchar', { length: 65535, name: 'detail' })
+  @Column('text', { name: 'detail' })
   detail!: string;
 
   /**
