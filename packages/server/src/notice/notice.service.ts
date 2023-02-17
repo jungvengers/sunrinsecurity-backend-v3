@@ -25,6 +25,9 @@ export class NoticeService {
   async findAll(query: FindNoticeDto) {
     const [items, count] = await this.noticeRepository.findAndCount({
       select: ['id', 'title', 'author', 'createdAt', 'updatedAt'],
+      order: {
+        createdAt: 'DESC',
+      },
       skip: (query.page - 1) * 10,
       take: 10,
     });
