@@ -21,7 +21,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
+  ACCESS_TOKEN_SECRET: ${{ vars.ACCESS_TOKEN_SECRET }}
 
 jobs:
   build:
@@ -80,6 +80,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - run: echo $ACCESS_TOKEN_SECRET
     - run: yarn global add lerna
     - run: lerna bootstrap
     - run: lerna run lint
