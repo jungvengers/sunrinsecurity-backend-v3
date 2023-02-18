@@ -1,12 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NoticeController } from './notice.controller';
 import { NoticeService } from './notice.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Notice } from './entities/notice.entity';
 
 describe('NoticeController', () => {
   let controller: NoticeController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        TypeOrmModule.forRoot({
+          type: 'sqlite',
+          database: ':memory:',
+          entities: [Notice],
+          synchronize: true,
+        }),
+        TypeOrmModule.forFeature([Notice]),
+      ],
       controllers: [NoticeController],
       providers: [NoticeService],
     }).compile();

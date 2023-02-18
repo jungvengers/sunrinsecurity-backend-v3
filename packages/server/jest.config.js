@@ -101,7 +101,7 @@ module.exports = {
   // reporters: undefined,
 
   // Automatically reset mock state before every test
-  // resetMocks: false,
+  resetMocks: true,
 
   // Reset the module registry before running each individual test
   // resetModules: false,
@@ -113,12 +113,11 @@ module.exports = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  rootDir: 'src',
+  // rootDir: 'src',
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: ['<rootDir>', '<rootDir>/src'],
+  modulePaths: ['<rootDir>', '<rootDir>/src'],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
