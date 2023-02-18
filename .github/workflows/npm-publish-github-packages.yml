@@ -21,7 +21,37 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+
+  # Environments
+  NODE_ENV: ${{ vars.NODE_ENV }}
+  
+  DB_HOST: ${{ vars.DB_HOST }}
+  DB_PORT: ${{ vars.DB_PORT }}
+  DB_NAME: ${{ vars.DB_NAME }}
+  DB_USERNAME: ${{ vars.DB_USER }}
+  DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+  
+  JWT_SECRET: ${{ vars.JWT_SECRET }}
+  JWT_EXPIRES_IN: ${{ vars.JWT_EXPIRES_IN }}
+  
   ACCESS_TOKEN_SECRET: ${{ vars.ACCESS_TOKEN_SECRET }}
+  ACCESS_TOKEN_EXPIRES_IN: ${{ vars.ACCESS_TOKEN_EXPIRES_IN }}
+  
+  REFRESH_TOKEN_SECRET: ${{ vars.REFRESH_TOKEN_SECRET }}
+  REFRESH_TOKEN_EXPIRES_IN: ${{ vars.REFRESH_TOKEN_EXPIRES_IN }}
+  
+  CORS_ORIGIN: ${{ vars.CORS_ORIGIN }}
+  CORS_METHODS: ${{ vars.CORS_METHODS }}
+
+  AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+  AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
+
+  GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
+  GOOGLE_CALLBACK_URL: ${{ vars.GOOGLE_CALLBACK_URL }}
+
+  FRONTEND_URL: ${{ vars.FRONTEND_URL }}
 
 jobs:
   build:
