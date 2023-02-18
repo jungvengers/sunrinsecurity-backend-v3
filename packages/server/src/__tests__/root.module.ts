@@ -14,7 +14,6 @@ import { ConfigValidator } from 'src/validators/config';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`../../.env`, `.env`],
-      validationSchema: ConfigValidator,
     }),
     TypeOrmModule.forRootAsync({
       useFactory: async (config: ConfigService) => ({
