@@ -22,6 +22,8 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
+environment: development
+
 
 jobs:
   build:
