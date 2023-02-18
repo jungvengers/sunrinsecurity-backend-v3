@@ -22,12 +22,11 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
-environment: development
-
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x, 19.x]
@@ -49,6 +48,7 @@ jobs:
   jest:
     needs: build
     runs-on: ubuntu-latest
+    environment: development
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
@@ -58,16 +58,9 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Create .env file
-      run: |
-        touch .env
-        echo ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }} >> .env
-        cat .env
     - run: yarn global add lerna
     - run: lerna bootstrap
     - run: lerna run test
-      env:
-        ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
     - name: Archive npm failure logs
       uses: actions/upload-artifact@v2
       if: failure()
@@ -77,6 +70,7 @@ jobs:
   lint:
     needs: build
     runs-on: ubuntu-latest
+    environment: development
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
@@ -98,6 +92,7 @@ jobs:
   build-docker:
     needs: [ jest, lint ]
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: read
       packages: write
