@@ -7,6 +7,7 @@ module.exports = {
   ...realTypeORM,
   Column: (type: SimpleColumnType, options?: ColumnCommonOptions) => {
     if (type === 'json') type = 'simple-json';
+    if (type === 'enum') type = 'simple-enum';
     return realTypeORM.Column(type, options);
   },
 };

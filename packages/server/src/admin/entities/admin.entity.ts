@@ -16,8 +16,7 @@ export class Admin {
   @PrimaryColumn()
   email!: string;
 
-  @Column({
-    type: 'enum',
+  @Column('enum', {
     enum: AdminRole,
     default: AdminRole.NONE,
   })

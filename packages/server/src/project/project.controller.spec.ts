@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from 'src/admin/admin.module';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigValidator } from 'src/validators/config';
+import { RootTestModule } from 'src/__tests__/root.module';
 
 describe('ProjectController', () => {
   let controller: ProjectController;
@@ -13,17 +14,7 @@ describe('ProjectController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          envFilePath: [`../../.env`, `.env`],
-          validationSchema: ConfigValidator,
-        }),
-        TypeOrmModule.forRoot({
-          type: 'sqlite',
-          database: ':memory:',
-          entities: [Project],
-          synchronize: true,
-        }),
+        RootTestModule,
         TypeOrmModule.forFeature([Project]),
         AdminModule,
       ],

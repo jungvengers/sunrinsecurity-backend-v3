@@ -2,13 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NoticeService } from './notice.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Notice } from './entities/notice.entity';
+import { RootTestModule } from 'src/__tests__/root.module';
 
 describe('NoticeService', () => {
   let service: NoticeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forFeature([Notice])],
+      imports: [RootTestModule, TypeOrmModule.forFeature([Notice])],
       providers: [NoticeService],
     }).compile();
 
