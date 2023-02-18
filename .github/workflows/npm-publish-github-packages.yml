@@ -60,6 +60,7 @@ jobs:
       run: |
         touch .env
         echo ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }} >> .env
+        cat .env
     - run: yarn global add lerna
     - run: lerna bootstrap
     - run: lerna run test
