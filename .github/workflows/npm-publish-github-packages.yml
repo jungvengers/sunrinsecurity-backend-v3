@@ -21,7 +21,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
 
 
 jobs:
@@ -60,6 +59,8 @@ jobs:
     - run: yarn global add lerna
     - run: lerna bootstrap
     - run: lerna run test
+      env:
+        ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
     - name: Archive npm failure logs
       uses: actions/upload-artifact@v2
       if: failure()
