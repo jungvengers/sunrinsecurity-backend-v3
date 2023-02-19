@@ -9,33 +9,33 @@ export class Form {
   @OneToOne(() => Club)
   club!: Club;
 
-  @Column()
+  @Column({ nullable: true })
   question1!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question2!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question3!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question4!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question5!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question6!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question7!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question8!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question9!: string;
 
-  @Column()
+  @Column({ nullable: true })
   question10!: string;
 }
