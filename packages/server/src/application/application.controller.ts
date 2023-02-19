@@ -17,12 +17,12 @@ import { AccessGuard } from 'src/auth/guards/access.guard';
 import { Request } from 'express';
 
 @Controller('application')
+@ApiBearerAuth()
+@UseGuards(AccessGuard)
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
   @Post()
-  @ApiBearerAuth()
-  @UseGuards(AccessGuard)
   create(
     @Req() req: Request,
     @Body() createApplicationDto: CreateApplicationDto,
