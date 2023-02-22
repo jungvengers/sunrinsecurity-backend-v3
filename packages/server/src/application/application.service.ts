@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,6 +13,14 @@ export class ApplicationService {
   ) {}
 
   async create(user: Express.User, createApplicationDto: CreateApplicationDto) {
+    const apps = await this.applicationRepository.countBy({
+      email: user.email,
+    });
+    if (apps >= 3)
+      throw new HttpException(
+        '3개 이상 지원할 수 없습니다.',
+        HttpStatus.BAD_REQUEST,
+      );
     const item = await this.applicationRepository.create({
       email: user.email,
       club: { id: createApplicationDto.clubid },
