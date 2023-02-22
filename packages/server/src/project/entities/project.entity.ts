@@ -75,6 +75,9 @@ export class Project {
   @Column({ nullable: true })
   image!: string;
 
+  @Column()
+  attach!: string[];
+
   /**
    * The field of the project
    * @example 'Computer Science'

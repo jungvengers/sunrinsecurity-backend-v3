@@ -29,6 +29,14 @@ export class CreateProjectDto {
   image: string;
 
   @ApiProperty({
+    example: [
+      'https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png',
+    ],
+    description: '프로젝트 첨부파일',
+  })
+  attach: string[];
+
+  @ApiProperty({
     example: '해킹',
     description: '프로젝트 타입',
   })
@@ -51,6 +59,7 @@ export class CreateProjectDto {
     description: string,
     detail: string,
     image: string,
+    attach: string[],
     type: string,
     club: string,
     participants: string,
@@ -59,6 +68,7 @@ export class CreateProjectDto {
     this.description = description;
     this.detail = detail;
     this.image = image;
+    this.attach = attach;
     this.type = type;
     this.club = club;
     this.participants = participants;
