@@ -7,7 +7,27 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
 
-export const allowedFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+export const allowedFileTypes = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/gif',
+  'image/svg+xml',
+  'image/webp',
+  'text/csv',
+  'text/plain',
+  'audio/mpeg',
+  'audio/webm',
+  'video/mp4',
+  'video/webm',
+  'application/zip',
+  'application/x-7z-compressed',
+  'application/pdf',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+];
 
 @Controller('upload')
 export class UploadController {
