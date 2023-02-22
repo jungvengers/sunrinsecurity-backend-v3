@@ -1462,11 +1462,6 @@
   resolved "https://registry.npmjs.org/@nestjs/mapped-types/-/mapped-types-1.1.0.tgz"
   integrity sha512-+2kSly4P1QI+9eGt+/uGyPdEG1hVz7nbpqPHWZVYgoqz8eOHljpXPag+UCVRw9zo2XCu4sgNUIGe8Uk0+OvUQg==
 
-"@nestjs/mapped-types@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-1.2.2.tgz#d9ddb143776e309dbc1a518ac1607fddac1e140e"
-  integrity sha512-3dHxLXs3M0GPiriAcCFFJQHoDFUuzTD5w6JDhE7TyfT89YKpe6tcCCIqOZWdXmt9AZjjK30RkHRSFF+QEnWFQg==
-
 "@nestjs/passport@^9.0.1":
   version "9.0.2"
   resolved "https://registry.npmjs.org/@nestjs/passport/-/passport-9.0.2.tgz"
