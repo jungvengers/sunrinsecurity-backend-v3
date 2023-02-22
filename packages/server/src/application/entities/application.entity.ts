@@ -6,11 +6,15 @@ import {
   PrimaryColumn,
   ManyToOne,
   Entity,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 export class Application {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  readonly id!: string;
+
+  @Column()
   email!: string;
 
   @ManyToOne(() => Club, (club) => club.applications)
