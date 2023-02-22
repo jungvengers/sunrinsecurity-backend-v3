@@ -75,7 +75,7 @@ export class Project {
   @Column({ nullable: true })
   image!: string;
 
-  @Column()
+  @Column('simple-array')
   attach!: string[];
 
   /**
