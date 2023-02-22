@@ -59,6 +59,7 @@ export class ApplicationService {
     clubid: number,
     updateApplicationDto: UpdateApplicationDto,
   ) {
+    delete updateApplicationDto.clubid;
     return this.applicationRepository.update(
       { email: user.email, club: { id: clubid } },
       updateApplicationDto,
