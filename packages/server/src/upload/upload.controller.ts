@@ -21,6 +21,7 @@ export const allowedFileTypes = [
   'video/mp4',
   'video/webm',
   'application/zip',
+  'application/x-zip-compressed',
   'application/x-7z-compressed',
   'application/pdf',
   'application/vnd.ms-powerpoint',
