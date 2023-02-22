@@ -1,5 +1,13 @@
 import { Application } from 'src/application/entities/application.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Form } from 'src/form/entities/form.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Club {
@@ -23,4 +31,10 @@ export class Club {
 
   @OneToMany(() => Application, (application) => application.club)
   applications!: Application[];
+
+  @JoinColumn()
+  @OneToOne(() => Form, (form) => form.club, {
+    cascade: true,
+  })
+  form!: Form;
 }

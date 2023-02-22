@@ -17,9 +17,14 @@ export class FormService {
   ) {}
 
   async find(clubid: number) {
-    const item = this.formRepository.findOneBy({
+    console.log(
+      '🚀 ~ file: form.service.ts ~ line 64 ~ FormService ~ find ~ clubid',
+      await this.formRepository.find(),
+    );
+    const item = await this.formRepository.findOneBy({
       club: { id: clubid },
     });
+    console.log(item);
     return item;
   }
 
@@ -27,16 +32,21 @@ export class FormService {
     const club = await this.clubRepository.findOneBy({
       id: createFormDto.clubid,
     });
+    if (!club) {
+      throw new HttpException('Club not found', HttpStatus.NOT_FOUND);
+    }
     if (admin.role !== 'admin' && admin.role !== club?.name) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const item = createFormDto.questions?.reduce(
       (acc, cur, idx) => ({ ...acc, [`question${idx + 1}`]: cur }),
-      { club: { id: createFormDto.clubid } },
+      { club },
     ) ?? {
-      club: { id: createFormDto.clubid },
+      club,
     };
-    return this.formRepository.save(item);
+    const entity = this.formRepository.create(item);
+    console.log(item, entity);
+    return this.formRepository.save(entity);
   }
 
   async update(admin: Admin, clubid: number, updateFormDto: UpdateFormDto) {
