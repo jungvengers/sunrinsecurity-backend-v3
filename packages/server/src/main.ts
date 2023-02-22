@@ -16,7 +16,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     origin: config.get<string>('CORS_ORIGIN', '*'),
-    methods: config.get<string>('CORS_METHODS', 'GET,PUT,POST,DELETE'),
+    methods: config.get<string>(
+      'CORS_METHODS',
+      'GET,HEAD,PUT,PATCH,POST,DELETE',
+    ),
     credentials: config.get<boolean>('CORS_CREDENTIALS', true),
     preflightContinue: config.get<boolean>('CORS_PREFLIGHT', false),
     optionsSuccessStatus: config.get<number>('CORS_OPTIONS_STATUS', 204),
