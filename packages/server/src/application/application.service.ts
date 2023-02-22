@@ -30,6 +30,14 @@ export class ApplicationService {
     return await this.applicationRepository.save(item);
   }
 
+  async findAll(user: Express.User) {
+    const items = await this.applicationRepository.find({
+      where: { email: user.email },
+      relations: ['club'],
+    });
+    return items;
+  }
+
   async find(user: Express.User, clubid: number) {
     const item = this.applicationRepository.findOneBy({
       email: user.email,

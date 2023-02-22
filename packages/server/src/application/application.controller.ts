@@ -34,6 +34,14 @@ export class ApplicationController {
     return this.applicationService.create(req.user, createApplicationDto);
   }
 
+  @Get()
+  findAll(@Req() req: Request) {
+    if (!req.user) {
+      throw new HttpException('Not logged in', 401);
+    }
+    return this.applicationService.findAll(req.user);
+  }
+
   @Get(':clubid')
   find(@Req() req: Request, @Param('clubid') clubid: string) {
     if (!req.user) {
