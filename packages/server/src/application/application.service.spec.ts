@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ApplicationService } from './application.service';
 import { Application } from './entities/application.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Club } from 'src/club/entities/club.entity';
 import { RootTestModule } from 'src/__tests__/root.module';
 
 describe('ApplicationService', () => {

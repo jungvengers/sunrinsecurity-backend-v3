@@ -8,8 +8,6 @@ import {
   Delete,
   UseGuards,
   Req,
-  HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { ClubService } from './club.service';
 import { CreateClubDto } from './dto/create-club.dto';

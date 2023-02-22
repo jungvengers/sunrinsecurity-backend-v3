@@ -27,8 +27,6 @@ export class AuthService {
     refreshToken: string,
   ): Promise<boolean> {
     try {
-      console.log('AuthService.validateRefreshToken', email, refreshToken);
-      console.log('AuthService.validateRefreshToken', this.refreshTokenStore);
       const token = await this.jwtService.verifyAsync(refreshToken, {
         secret: this.configService.get('REFRESH_TOKEN_SECRET'),
       });

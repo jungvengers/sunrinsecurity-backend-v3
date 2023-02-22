@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  HttpException,
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -27,12 +28,18 @@ export class ApplicationController {
     @Req() req: Request,
     @Body() createApplicationDto: CreateApplicationDto,
   ) {
-    return this.applicationService.create(req.user!, createApplicationDto);
+    if (!req.user) {
+      throw new HttpException('Not logged in', 401);
+    }
+    return this.applicationService.create(req.user, createApplicationDto);
   }
 
   @Get(':clubid')
   find(@Req() req: Request, @Param('clubid') clubid: string) {
-    return this.applicationService.find(req.user!, +clubid);
+    if (!req.user) {
+      throw new HttpException('Not logged in', 401);
+    }
+    return this.applicationService.find(req.user, +clubid);
   }
 
   @Patch(':clubid')
@@ -41,8 +48,11 @@ export class ApplicationController {
     @Param('clubid') clubid: string,
     @Body() updateApplicationDto: UpdateApplicationDto,
   ) {
+    if (!req.user) {
+      throw new HttpException('Not logged in', 401);
+    }
     return this.applicationService.update(
-      req.user!,
+      req.user,
       +clubid,
       updateApplicationDto,
     );
@@ -50,6 +60,9 @@ export class ApplicationController {
 
   @Delete(':clubid')
   remove(@Req() req: Request, @Param('clubid') clubid: string) {
-    return this.applicationService.remove(req.user!, +clubid);
+    if (!req.user) {
+      throw new HttpException('Not logged in', 401);
+    }
+    return this.applicationService.remove(req.user, +clubid);
   }
 }

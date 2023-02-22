@@ -7,7 +7,6 @@ import { Club } from 'src/club/entities/club.entity';
 import { Form } from 'src/form/entities/form.entity';
 import { Notice } from 'src/notice/entities/notice.entity';
 import { Project } from 'src/project/entities/project.entity';
-import { ConfigValidator } from 'src/validators/config';
 
 @Module({
   imports: [
@@ -16,7 +15,7 @@ import { ConfigValidator } from 'src/validators/config';
       envFilePath: [`../../.env`, `.env`],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: async (config: ConfigService) => ({
+      useFactory: async () => ({
         type: 'sqlite',
         database: ':memory:',
         entities: [Project, Club, Notice, Form, Application, Admin],

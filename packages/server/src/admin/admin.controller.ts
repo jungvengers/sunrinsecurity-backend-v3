@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AdminGuard } from './guards/admin.guard';
 import { DebugGuard } from './guards/debug.guard';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -31,6 +39,9 @@ export class AdminController {
   @ApiBearerAuth()
   @UseGuards(AccessGuard, DebugGuard)
   registAdmin(@Req() req: Request) {
-    return this.adminService.createAdmin(req.user!.email);
+    if (!req.user) {
+      throw new HttpException('Not logged in', 401);
+    }
+    return this.adminService.createAdmin(req.user.email);
   }
 }

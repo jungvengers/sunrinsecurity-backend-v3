@@ -17,14 +17,9 @@ export class FormService {
   ) {}
 
   async find(clubid: number) {
-    console.log(
-      '🚀 ~ file: form.service.ts ~ line 64 ~ FormService ~ find ~ clubid',
-      await this.formRepository.find(),
-    );
     const item = await this.formRepository.findOneBy({
       club: { id: clubid },
     });
-    console.log(item);
     return item;
   }
 
@@ -45,7 +40,6 @@ export class FormService {
       club,
     };
     const entity = this.formRepository.create(item);
-    console.log(item, entity);
     return this.formRepository.save(entity);
   }
 

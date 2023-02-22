@@ -42,7 +42,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       }
       return done(null, undefined, { reason: 'Unauthorized' });
     } catch (err) {
-      console.log(err);
       return done(null, undefined, { reason: 'Unauthorized' });
     }
   }
