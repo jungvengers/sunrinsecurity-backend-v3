@@ -20,9 +20,9 @@ import { Admin } from 'src/admin/entities/admin.entity';
 export class FormController {
   constructor(private readonly formService: FormService) {}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.formService.find(+id);
+  @Get(':clubid')
+  findOne(@Param('clubid') clubid: string) {
+    return this.formService.find(+clubid);
   }
 
   @Post()
@@ -33,15 +33,15 @@ export class FormController {
     return this.formService.create(admin, createFormDto);
   }
 
-  @Patch(':id')
+  @Patch(':clubid')
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
   update(
     @Req() req: Request,
-    @Param('id') id: string,
+    @Param('clubid') clubid: string,
     @Body() updateFormDto: UpdateFormDto,
   ) {
     const admin: Admin = req.user as any;
-    return this.formService.update(admin, +id, updateFormDto);
+    return this.formService.update(admin, +clubid, updateFormDto);
   }
 }
