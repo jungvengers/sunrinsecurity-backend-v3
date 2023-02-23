@@ -1,0 +1,12 @@
+version: '2.0'
+
+services:
+  server:
+    image: 'ghcr.io/jungvengers/sunrinsecurity-backend-v3:master'
+    env_file:
+      - .env
+      - packages/server/.env
+    environment:
+      - PORT=80
+    expose:
+      - 80
