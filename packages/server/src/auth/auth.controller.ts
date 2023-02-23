@@ -37,6 +37,8 @@ export class AuthController {
   }
 
   @Get('/logout')
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard)
   async logout(@Req() req: Request, @Res() res: Response) {
     const refreshToken = req.cookies[REFRESH_TOKEN_KEY];
     if (!refreshToken) {
