@@ -7,6 +7,6 @@ services:
       - .env
       - packages/server/.env
     environment:
-      - PORT=80
-    expose:
-      - 80
+      - PORT=3000
+    ports:
+      - 3000:3000
