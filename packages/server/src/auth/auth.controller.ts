@@ -36,6 +36,17 @@ export class AuthController {
     return req.user;
   }
 
+  @Get('/logout')
+  async logout(@Req() req: Request, @Res() res: Response) {
+    const refreshToken = req.cookies[REFRESH_TOKEN_KEY];
+    if (!refreshToken) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+    await this.authService.removeRefreshToken(refreshToken);
+    res.clearCookie(REFRESH_TOKEN_KEY);
+    res.send('ok');
+  }
+
   @Get('/google')
   @UseGuards(GoogleGuard)
   // eslint-disable-next-line @typescript-eslint/no-empty-function
