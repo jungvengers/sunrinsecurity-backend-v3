@@ -33,10 +33,9 @@ export class FormService {
     if (admin.role !== 'admin' && admin.role !== club?.name) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
-    const item = createFormDto.questions?.reduce(
-      (acc, cur, idx) => ({ ...acc, [`question${idx + 1}`]: cur }),
-      { club },
-    ) ?? {
+    const item = {
+      ...createFormDto,
+      clubid: undefined,
       club,
     };
     const entity = this.formRepository.create(item);
@@ -45,14 +44,16 @@ export class FormService {
 
   async update(admin: Admin, clubid: number, updateFormDto: UpdateFormDto) {
     const club = await this.clubRepository.findOneBy({ id: clubid });
+    if (!club) {
+      throw new HttpException('Club not found', HttpStatus.NOT_FOUND);
+    }
     if (admin.role !== 'admin' && admin.role !== club?.name) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
-    const item = updateFormDto.questions?.reduce(
-      (acc, cur, idx) => ({ ...acc, [`question${idx + 1}`]: cur }),
-      { club: { id: clubid } },
-    ) ?? {
-      club: { id: clubid },
+    const item = {
+      ...updateFormDto,
+      clubid: undefined,
+      club,
     };
     return this.formRepository.save(item);
   }
