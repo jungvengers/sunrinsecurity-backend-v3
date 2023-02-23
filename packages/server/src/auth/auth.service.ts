@@ -22,6 +22,14 @@ export class AuthService {
     return token;
   }
 
+  public async removeRefreshToken(refreshToken: string): Promise<void> {
+    const token = await this.jwtService.verifyAsync(refreshToken, {
+      secret: this.configService.get('REFRESH_TOKEN_SECRET'),
+    });
+
+    this.refreshTokenStore.delete(token.email);
+  }
+
   public async validateRefreshToken(
     email: string,
     refreshToken: string,
