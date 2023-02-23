@@ -28,7 +28,7 @@ export class NoticeService {
       order: {
         createdAt: 'DESC',
       },
-      skip: (query.page - 1) * 10,
+      skip: ((query.page ?? 1) - 1) * 10,
       take: 10,
     });
     return {
