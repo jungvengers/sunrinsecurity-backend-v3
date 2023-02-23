@@ -23,13 +23,13 @@ lerna run build
 ## Production mode
 
 ```
-lerna exec yarn -- start --scope=server
+lerna exec --scope=server yarn -- start
 ```
 
 ## Development mode
 
 ```
-lerna exec yarn -- start:dev --scope=server
+lerna exec --scope=server yarn -- start:dev
 ```
 
 # Docs
