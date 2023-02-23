@@ -26,7 +26,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       let { familyName, givenName } = profile.name;
       const email = profile.emails[0].value;
 
-      if (Pattern.SUNRIN_STUDENT_EMAIL_PATTERN.test(email)) {
+      if (Pattern.SUNRIN_EMAIL_PATTERN.test(email)) {
         if (Util.isNumeric(familyName))
           givenName = [familyName, (familyName = givenName)][0];
         const userClass = parseInt(givenName.substring(1, 3));
