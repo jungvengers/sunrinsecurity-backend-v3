@@ -9,6 +9,8 @@ import {
   Req,
   UseGuards,
   Query,
+  CacheInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -20,6 +22,7 @@ import { Admin } from 'src/admin/entities/admin.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('project')
+@UseInterceptors(CacheInterceptor)
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 

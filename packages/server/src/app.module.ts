@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { CacheModule, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NoticeModule } from './notice/notice.module';
 import { ProjectModule } from './project/project.module';
 import { ClubModule } from './club/club.module';
@@ -10,6 +10,7 @@ import { ConfigValidator } from './validators/config';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
+import ms from 'ms';
 
 @Module({
   imports: [
@@ -17,6 +18,15 @@ import { UploadModule } from './upload/upload.module';
       isGlobal: true,
       envFilePath: [`../../.env`, `.env`],
       validationSchema: ConfigValidator,
+    }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        ttl: ms(config.get<string>('CACHE_TTL', '5s')),
+        max: config.get<number>('CACHE_MAX', 100),
+      }),
+      inject: [ConfigService],
     }),
     DatabaseModule,
     AuthModule,

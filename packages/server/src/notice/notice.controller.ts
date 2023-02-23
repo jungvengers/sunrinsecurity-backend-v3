@@ -8,6 +8,8 @@ import {
   Delete,
   Query,
   Req,
+  CacheInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { NoticeService } from './notice.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
@@ -20,6 +22,7 @@ import { Request } from 'express';
 import { Admin } from 'src/admin/entities/admin.entity';
 
 @Controller('notice')
+@UseInterceptors(CacheInterceptor)
 export class NoticeController {
   constructor(private readonly noticeService: NoticeService) {}
 

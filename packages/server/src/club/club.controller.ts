@@ -8,6 +8,9 @@ import {
   Delete,
   UseGuards,
   Req,
+  CacheInterceptor,
+  UseInterceptors,
+  CacheTTL,
 } from '@nestjs/common';
 import { ClubService } from './club.service';
 import { CreateClubDto } from './dto/create-club.dto';
@@ -16,8 +19,11 @@ import { AdminGuard } from 'src/admin/guards/admin.guard';
 import { Request } from 'express';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Admin } from 'src/admin/entities/admin.entity';
+import ms from 'ms';
 
 @Controller('club')
+@CacheTTL(ms('1h'))
+@UseInterceptors(CacheInterceptor)
 export class ClubController {
   constructor(private readonly clubService: ClubService) {}
 
