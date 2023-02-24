@@ -1,14 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { Cache } from 'cache-manager';
+import ms from 'ms';
 
 @Injectable()
 export class AuthService {
-  private refreshTokenStore: Map<string, string> = new Map();
-
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   public async generateRefreshToken(user: Express.User): Promise<string> {
@@ -17,7 +18,11 @@ export class AuthService {
       expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRES_IN'),
     });
 
-    this.refreshTokenStore.set(user.email, token);
+    this.cacheManager.set(
+      `refresh-${user.email}`,
+      token,
+      ms(this.configService.get<string>('REFRESH_TOKEN_EXPIRES_IN', '1w')),
+    );
 
     return token;
   }
@@ -27,7 +32,7 @@ export class AuthService {
       secret: this.configService.get('REFRESH_TOKEN_SECRET'),
     });
 
-    this.refreshTokenStore.delete(token.email);
+    this.cacheManager.del(`refresh-${token.email}`);
   }
 
   public async validateRefreshToken(
@@ -41,7 +46,7 @@ export class AuthService {
 
       return (
         token.email === email &&
-        refreshToken === this.refreshTokenStore.get(email)
+        refreshToken === (await this.cacheManager.get(`refresh-${email}`))
       );
     } catch {
       return false;
