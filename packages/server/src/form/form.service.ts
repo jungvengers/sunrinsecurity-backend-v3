@@ -55,6 +55,6 @@ export class FormService {
       clubid: undefined,
       club,
     };
-    return this.formRepository.save(item);
+    return this.formRepository.update({ club: { id: clubid } }, item);
   }
 }
