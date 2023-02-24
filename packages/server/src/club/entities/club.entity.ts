@@ -17,7 +17,7 @@ export class Club {
   @Column()
   name!: string;
 
-  @Column()
+  @Column('text')
   description!: string;
 
   @Column()
