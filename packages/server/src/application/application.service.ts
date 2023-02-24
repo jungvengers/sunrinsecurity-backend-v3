@@ -24,6 +24,7 @@ export class ApplicationService {
     const item = await this.applicationRepository.create({
       email: user.email,
       club: { id: createApplicationDto.clubid },
+      phone: createApplicationDto.phone,
       answer1: createApplicationDto.answer1,
       answer2: createApplicationDto.answer2,
       answer3: createApplicationDto.answer3,

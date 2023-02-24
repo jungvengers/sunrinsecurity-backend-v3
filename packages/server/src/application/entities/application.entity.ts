@@ -16,6 +16,9 @@ export class Application {
   @Column()
   email!: string;
 
+  @Column()
+  phone!: string;
+
   @ManyToOne(() => Club, (club) => club.applications)
   club!: Club;
 

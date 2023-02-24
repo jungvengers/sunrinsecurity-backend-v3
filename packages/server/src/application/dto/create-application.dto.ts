@@ -3,6 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateApplicationDto {
   @ApiProperty({ example: 1, description: '동아리 ID' })
   clubid!: number;
+  @ApiProperty({ example: '010-1234-5678', description: '전화번호' })
+  phone!: string;
   @ApiProperty({
     example: '동아리 활동에 대해 알고 싶습니다.',
     description: '응답 1',
