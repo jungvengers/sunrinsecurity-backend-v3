@@ -22,9 +22,7 @@ export class ClubService {
   }
 
   async findAll() {
-    const items = this.clubRepository.find({
-      select: ['id', 'name'],
-    });
+    const items = this.clubRepository.find();
     return items;
   }
 
