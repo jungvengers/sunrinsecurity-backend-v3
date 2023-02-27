@@ -5,19 +5,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Club } from './entities/club.entity';
 import { Admin } from 'src/admin/entities/admin.entity';
+import { Form } from 'src/form/entities/form.entity';
 
 @Injectable()
 export class ClubService {
   constructor(
     @InjectRepository(Club)
     private readonly clubRepository: Repository<Club>,
+    @InjectRepository(Form)
+    private readonly formRepository: Repository<Form>,
   ) {}
 
   async create(admin: Admin, createClubDto: CreateClubDto) {
     if (admin.role !== 'admin') {
       throw new HttpException('Not admin', HttpStatus.UNAUTHORIZED);
     }
-    const club = this.clubRepository.create(createClubDto);
+    const club = this.clubRepository.create({ ...createClubDto, form: {} });
     return this.clubRepository.save(club);
   }
 

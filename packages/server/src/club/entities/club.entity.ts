@@ -32,7 +32,6 @@ export class Club {
   @OneToMany(() => Application, (application) => application.club)
   applications!: Application[];
 
-  @JoinColumn()
   @OneToOne(() => Form, (form) => form.club, {
     cascade: true,
   })
