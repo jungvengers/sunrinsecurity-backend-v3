@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { DateTime } from 'luxon';
 
 function checkTimeLimit(startTime: DateTime, endTime: DateTime) {
-  const now = DateTime.local();
+  const now = DateTime.local({ zone: 'Asia/Seoul' });
 
   if (now < startTime) {
     throw new HttpException(
@@ -49,9 +49,15 @@ export const TimeLimitFromConfigGuard = (
     canActivate() {
       const startTime = DateTime.fromISO(
         this.config.get<string>(startTimeKey, '2021-01-01T00:00:00'),
+        {
+          zone: 'Asia/Seoul',
+        },
       );
       const endTime = DateTime.fromISO(
         this.config.get<string>(endTimeKey, '2021-01-01T23:59:59'),
+        {
+          zone: 'Asia/Seoul',
+        },
       );
 
       return checkTimeLimit(startTime, endTime);
