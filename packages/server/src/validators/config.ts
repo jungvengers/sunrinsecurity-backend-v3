@@ -29,5 +29,9 @@ export const ConfigValidator = Joi.object({
   AWS_ACCESS_KEY_ID: Joi.string().required(),
   AWS_SECRET_ACCESS_KEY: Joi.string().required(),
   AWS_S3_BUCKET: Joi.string().required(),
+  APPLICATION_START_TIME: Joi.date().iso().required(),
+  APPLICATION_END_TIME: Joi.date().iso().required(),
+  FORM_START_TIME: Joi.date().iso().required(),
+  FORM_END_TIME: Joi.date().iso().required(),
   // ADMIN: Joi.array().items(Joi.string()).required(),
 });

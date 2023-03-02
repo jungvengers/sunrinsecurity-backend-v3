@@ -45,13 +45,4 @@ export class AdminController {
     }
     return this.adminService.createAdmin(req.user.email);
   }
-
-  @Get('test')
-  @UseGuards(
-    DebugGuard,
-    TimeLimitFromConfigGuard('ADMIN_TEST_START_TIME', 'ADMIN_TEST_END_TIME'),
-  )
-  test() {
-    return 'test';
-  }
 }
