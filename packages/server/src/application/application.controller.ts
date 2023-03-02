@@ -16,6 +16,7 @@ import { UpdateApplicationDto } from './dto/update-application.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { AccessGuard } from 'src/auth/guards/access.guard';
 import { Request } from 'express';
+import { TimeLimitFromConfigGuard } from 'src/guards/timelimit.guard';
 
 @Controller('application')
 @ApiBearerAuth()
@@ -24,6 +25,9 @@ export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
   @Post()
+  @UseGuards(
+    TimeLimitFromConfigGuard('APPLICATION_START_TIME', 'APPLICATION_END_TIME'),
+  )
   create(
     @Req() req: Request,
     @Body() createApplicationDto: CreateApplicationDto,
@@ -43,6 +47,9 @@ export class ApplicationController {
   }
 
   @Get(':clubid')
+  @UseGuards(
+    TimeLimitFromConfigGuard('APPLICATION_START_TIME', 'APPLICATION_END_TIME'),
+  )
   find(@Req() req: Request, @Param('clubid') clubid: string) {
     if (!req.user) {
       throw new HttpException('Not logged in', 401);
@@ -51,6 +58,9 @@ export class ApplicationController {
   }
 
   @Patch(':clubid')
+  @UseGuards(
+    TimeLimitFromConfigGuard('APPLICATION_START_TIME', 'APPLICATION_END_TIME'),
+  )
   update(
     @Req() req: Request,
     @Param('clubid') clubid: string,
@@ -67,6 +77,9 @@ export class ApplicationController {
   }
 
   @Delete(':clubid')
+  @UseGuards(
+    TimeLimitFromConfigGuard('APPLICATION_START_TIME', 'APPLICATION_END_TIME'),
+  )
   remove(@Req() req: Request, @Param('clubid') clubid: string) {
     if (!req.user) {
       throw new HttpException('Not logged in', 401);
