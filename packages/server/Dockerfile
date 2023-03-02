@@ -2,7 +2,7 @@ FROM node:18
 
 WORKDIR /app
 
-COPY . .
+COPY ../../ .
 RUN yarn global add lerna
 RUN lerna bootstrap
 RUN lerna run build

@@ -12,3 +12,9 @@ services:
       - 3000:3000
     extra_hosts:
       - host.docker.internal:host-gateway
+  cdn:
+    image: 'ghcr.io/jungvengers/sunrinsecurity-backend-v3:master'
+    environment:
+      - PORT=3000
+    ports:
+      - 4000:3000
