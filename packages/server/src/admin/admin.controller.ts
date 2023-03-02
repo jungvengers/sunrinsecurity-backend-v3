@@ -14,6 +14,7 @@ import { AdminService } from './admin.service';
 import { Request } from 'express';
 import { AccessGuard } from 'src/auth/guards/access.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { TimeLimitFromConfigGuard } from 'src/guards/timelimit.guard';
 
 @Controller('admin')
 export class AdminController {
@@ -43,5 +44,14 @@ export class AdminController {
       throw new HttpException('Not logged in', 401);
     }
     return this.adminService.createAdmin(req.user.email);
+  }
+
+  @Get('test')
+  @UseGuards(
+    DebugGuard,
+    TimeLimitFromConfigGuard('ADMIN_TEST_START_TIME', 'ADMIN_TEST_END_TIME'),
+  )
+  test() {
+    return 'test';
   }
 }
