@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { AdminService } from 'src/admin/admin.service';
 import { FindProjectDto } from './dto/find-project.dto';
 import { Admin } from 'src/admin/entities/admin.entity';
+import { compare } from 'src/utils/compare.string';
 
 @Injectable()
 export class ProjectService {
@@ -17,7 +18,7 @@ export class ProjectService {
   ) {}
 
   async create(admin: Admin, createProjectDto: CreateProjectDto) {
-    if (admin.role !== 'admin' && admin.role !== createProjectDto.club) {
+    if (admin.role !== 'admin' && compare(admin.role, createProjectDto.club)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const project = this.projectRepository.create(createProjectDto);
@@ -56,7 +57,7 @@ export class ProjectService {
   }
 
   async update(admin: Admin, id: number, updateProjectDto: UpdateProjectDto) {
-    if (admin.role !== 'admin' && admin.role !== updateProjectDto.club) {
+    if (admin.role !== 'admin' && compare(admin.role, updateProjectDto.club)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     if (admin.role !== 'admin') {
@@ -71,7 +72,7 @@ export class ProjectService {
 
   async remove(admin: Admin, id: number) {
     const item = await this.projectRepository.findOneBy({ id });
-    if (admin.role !== 'admin' && item?.club !== admin.role) {
+    if (admin.role !== 'admin' && compare(admin.role, item?.club)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     return this.projectRepository.delete(id);

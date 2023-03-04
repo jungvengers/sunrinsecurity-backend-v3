@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Club } from './entities/club.entity';
 import { Admin } from 'src/admin/entities/admin.entity';
 import { Form } from 'src/form/entities/form.entity';
+import { compare } from 'src/utils/compare.string';
 
 @Injectable()
 export class ClubService {
@@ -39,7 +40,7 @@ export class ClubService {
 
   async update(admin: Admin, id: number, updateClubDto: UpdateClubDto) {
     const item = await this.clubRepository.findOneBy({ id });
-    if (admin.role !== 'admin' && admin.role !== item?.name) {
+    if (admin.role !== 'admin' && compare(admin.role, item?.name)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     return this.clubRepository.update(id, updateClubDto);
