@@ -14,7 +14,6 @@ import { AdminService } from './admin.service';
 import { Request } from 'express';
 import { AccessGuard } from 'src/auth/guards/access.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { TimeLimitFromConfigGuard } from 'src/guards/timelimit.guard';
 
 @Controller('admin')
 export class AdminController {

@@ -3,7 +3,6 @@ import { Form } from 'src/form/entities/form.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,

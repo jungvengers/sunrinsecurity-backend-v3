@@ -3,13 +3,12 @@ import {
   HttpException,
   HttpStatus,
   Inject,
-  Injectable,
   mixin,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DateTime } from 'luxon';
 
-function checkTimeLimit(startTime: DateTime, endTime: DateTime) {
+export function checkTimeLimit(startTime: DateTime, endTime: DateTime) {
   const now = DateTime.local({ zone: 'Asia/Seoul' });
 
   if (now < startTime) {
