@@ -19,8 +19,8 @@ export class Application {
   @Column()
   phone!: string;
 
-  @ManyToOne(() => Club, (club) => club.applications)
-  club!: Club;
+  @Column()
+  portfolio!: string;
 
   @Column()
   answer1!: string;
@@ -51,6 +51,9 @@ export class Application {
 
   @Column()
   answer10!: string;
+
+  @ManyToOne(() => Club, (club) => club.applications)
+  club!: Club;
 
   @CreateDateColumn()
   readonly createdAt!: Date;

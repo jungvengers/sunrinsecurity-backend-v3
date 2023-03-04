@@ -6,6 +6,12 @@ export class CreateApplicationDto {
   @ApiProperty({ example: '010-1234-5678', description: '전화번호' })
   phone!: string;
   @ApiProperty({
+    example:
+      'https://cdn.sunrin-security.com/43f52ba22a8ff688cfa792c97c79f37b.png',
+    description: '포트폴리오',
+  })
+  portfolio!: string;
+  @ApiProperty({
     example: '동아리 활동에 대해 알고 싶습니다.',
     description: '응답 1',
   })
