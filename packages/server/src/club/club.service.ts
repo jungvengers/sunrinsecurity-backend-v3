@@ -40,7 +40,7 @@ export class ClubService {
 
   async update(admin: Admin, id: number, updateClubDto: UpdateClubDto) {
     const item = await this.clubRepository.findOneBy({ id });
-    if (admin.role !== 'admin' && compare(admin.role, item?.name)) {
+    if (admin.role !== 'admin' && !compare(admin.role, item?.name)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     return this.clubRepository.update(id, updateClubDto);

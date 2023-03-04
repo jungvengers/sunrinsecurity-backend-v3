@@ -31,7 +31,7 @@ export class FormService {
     if (!club) {
       throw new HttpException('Club not found', HttpStatus.NOT_FOUND);
     }
-    if (admin.role !== 'admin' && compare(admin.role, club?.name)) {
+    if (admin.role !== 'admin' && !compare(admin.role, club?.name)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const item = {
@@ -48,7 +48,7 @@ export class FormService {
     if (!club) {
       throw new HttpException('Club not found', HttpStatus.NOT_FOUND);
     }
-    if (admin.role !== 'admin' && compare(admin.role, club?.name)) {
+    if (admin.role !== 'admin' && !compare(admin.role, club?.name)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const item = {

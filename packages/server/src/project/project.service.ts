@@ -18,7 +18,7 @@ export class ProjectService {
   ) {}
 
   async create(admin: Admin, createProjectDto: CreateProjectDto) {
-    if (admin.role !== 'admin' && compare(admin.role, createProjectDto.club)) {
+    if (admin.role !== 'admin' && !compare(admin.role, createProjectDto.club)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const project = this.projectRepository.create(createProjectDto);
@@ -57,7 +57,7 @@ export class ProjectService {
   }
 
   async update(admin: Admin, id: number, updateProjectDto: UpdateProjectDto) {
-    if (admin.role !== 'admin' && compare(admin.role, updateProjectDto.club)) {
+    if (admin.role !== 'admin' && !compare(admin.role, updateProjectDto.club)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     if (admin.role !== 'admin') {
@@ -72,7 +72,7 @@ export class ProjectService {
 
   async remove(admin: Admin, id: number) {
     const item = await this.projectRepository.findOneBy({ id });
-    if (admin.role !== 'admin' && compare(admin.role, item?.club)) {
+    if (admin.role !== 'admin' && !compare(admin.role, item?.club)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     return this.projectRepository.delete(id);
