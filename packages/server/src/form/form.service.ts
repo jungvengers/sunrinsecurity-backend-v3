@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Form } from './entities/form.entity';
 import { Admin } from 'src/admin/entities/admin.entity';
 import { Club } from 'src/club/entities/club.entity';
+import { compare } from 'src/utils/compare.string';
 
 @Injectable()
 export class FormService {
@@ -30,7 +31,7 @@ export class FormService {
     if (!club) {
       throw new HttpException('Club not found', HttpStatus.NOT_FOUND);
     }
-    if (admin.role !== 'admin' && admin.role !== club?.name) {
+    if (admin.role !== 'admin' && compare(admin.role, club?.name)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const item = {
@@ -47,7 +48,7 @@ export class FormService {
     if (!club) {
       throw new HttpException('Club not found', HttpStatus.NOT_FOUND);
     }
-    if (admin.role !== 'admin' && admin.role !== club?.name) {
+    if (admin.role !== 'admin' && compare(admin.role, club?.name)) {
       throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
     }
     const item = {
