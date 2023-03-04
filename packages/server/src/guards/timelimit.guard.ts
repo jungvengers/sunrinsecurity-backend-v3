@@ -46,14 +46,14 @@ export const TimeLimitFromConfigGuard = (
     private readonly config!: ConfigService;
 
     canActivate() {
-      const startTime = DateTime.fromISO(
-        this.config.get<string>(startTimeKey, '2021-01-01T00:00:00'),
+      const startTime = DateTime.fromJSDate(
+        this.config.get<Date>(startTimeKey, new Date(0)),
         {
           zone: 'Asia/Seoul',
         },
       );
-      const endTime = DateTime.fromISO(
-        this.config.get<string>(endTimeKey, '2021-01-01T23:59:59'),
+      const endTime = DateTime.fromJSDate(
+        this.config.get<Date>(endTimeKey, new Date(0)),
         {
           zone: 'Asia/Seoul',
         },
