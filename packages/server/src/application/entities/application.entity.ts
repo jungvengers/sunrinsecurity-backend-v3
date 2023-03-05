@@ -19,37 +19,34 @@ export class Application {
   @Column()
   phone!: string;
 
-  @Column()
-  portfolio!: string;
-
-  @Column()
+  @Column('text')
   answer1!: string;
 
-  @Column()
+  @Column('text')
   answer2!: string;
 
-  @Column()
+  @Column('text')
   answer3!: string;
 
-  @Column()
+  @Column('text')
   answer4!: string;
 
-  @Column()
+  @Column('text')
   answer5!: string;
 
-  @Column()
+  @Column('text')
   answer6!: string;
 
-  @Column()
+  @Column('text')
   answer7!: string;
 
-  @Column()
+  @Column('text')
   answer8!: string;
 
-  @Column()
+  @Column('text')
   answer9!: string;
 
-  @Column()
+  @Column('text')
   answer10!: string;
 
   @ManyToOne(() => Club, (club) => club.applications)
