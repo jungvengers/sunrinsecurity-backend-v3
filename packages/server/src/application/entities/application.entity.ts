@@ -17,6 +17,12 @@ export class Application {
   email!: string;
 
   @Column()
+  name!: string;
+
+  @Column()
+  studentId!: string;
+
+  @Column()
   phone!: string;
 
   // @Column()
