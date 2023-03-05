@@ -19,6 +19,9 @@ export class Application {
   @Column()
   phone!: string;
 
+  // @Column()
+  // portfolio!: string;
+
   @Column('text')
   answer1!: string;
 
