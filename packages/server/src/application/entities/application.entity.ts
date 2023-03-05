@@ -17,39 +17,45 @@ export class Application {
   email!: string;
 
   @Column()
+  name!: string;
+
+  @Column()
+  studentId!: string;
+
+  @Column()
   phone!: string;
 
   // @Column()
   // portfolio!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer1!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer2!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer3!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer4!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer5!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer6!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer7!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer8!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer9!: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   answer10!: string;
 
   @ManyToOne(() => Club, (club) => club.applications)

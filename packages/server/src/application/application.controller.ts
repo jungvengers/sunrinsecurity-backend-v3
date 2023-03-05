@@ -17,6 +17,8 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { AccessGuard } from 'src/auth/guards/access.guard';
 import { Request } from 'express';
 import { TimeLimitFromConfigGuard } from 'src/guards/timelimit.guard';
+import { AdminGuard } from 'src/admin/guards/admin.guard';
+import { Admin } from 'src/admin/entities/admin.entity';
 
 @Controller('application')
 @ApiBearerAuth()
@@ -55,6 +57,13 @@ export class ApplicationController {
       throw new HttpException('Not logged in', 401);
     }
     return this.applicationService.find(req.user, +clubid);
+  }
+
+  @Get(':clubid/admin')
+  @UseGuards(AdminGuard)
+  findAllByClubId(@Req() req: Request, @Param('clubid') clubid: string) {
+    const admin: Admin = req.user as any;
+    return this.applicationService.findAllByClubId(admin, +clubid);
   }
 
   @Patch(':clubid')

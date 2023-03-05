@@ -4,12 +4,18 @@ import { UpdateApplicationDto } from './dto/update-application.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Application } from './entities/application.entity';
+import { Admin } from 'src/admin/entities/admin.entity';
+import { compare } from 'src/utils/compare.string';
+import { Club } from 'src/club/entities/club.entity';
+import { studentId } from 'src/utils/studentid.string';
 
 @Injectable()
 export class ApplicationService {
   constructor(
     @InjectRepository(Application)
     private applicationRepository: Repository<Application>,
+    @InjectRepository(Club)
+    private readonly clubRepository: Repository<Club>,
   ) {}
 
   async create(user: Express.User, createApplicationDto: CreateApplicationDto) {
@@ -23,6 +29,8 @@ export class ApplicationService {
       );
     const item = await this.applicationRepository.create({
       email: user.email,
+      name: user.username,
+      studentId: studentId(user),
       club: { id: createApplicationDto.clubid },
       phone: createApplicationDto.phone,
       answer1: createApplicationDto.answer1,
@@ -37,6 +45,17 @@ export class ApplicationService {
       answer10: createApplicationDto.answer10,
     });
     return await this.applicationRepository.save(item);
+  }
+
+  async findAllByClubId(admin: Admin, clubid: number) {
+    const item = await this.clubRepository.findOneBy({ id: clubid });
+    if (admin.role !== 'admin' && !compare(admin.role, item?.name)) {
+      throw new HttpException('Not admin of club', HttpStatus.UNAUTHORIZED);
+    }
+    const items = await this.applicationRepository.find({
+      where: { club: { id: clubid } },
+    });
+    return items;
   }
 
   async findAll(user: Express.User) {
