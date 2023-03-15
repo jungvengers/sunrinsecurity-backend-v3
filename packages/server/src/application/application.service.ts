@@ -19,6 +19,12 @@ export class ApplicationService {
   ) {}
 
   async create(user: Express.User, createApplicationDto: CreateApplicationDto) {
+    const app = await this.applicationRepository.findOneBy({
+      email: user.email,
+      club: { id: createApplicationDto.clubid },
+    });
+    if (app)
+      throw new HttpException('이미 지원했습니다.', HttpStatus.BAD_REQUEST);
     const apps = await this.applicationRepository.countBy({
       email: user.email,
     });
