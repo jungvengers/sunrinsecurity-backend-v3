@@ -5,7 +5,10 @@ name: Test
 # separate terms of service, privacy policy, and support
 # documentation.
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ master, release ]
+  pull_request:
 
 env:
   # Environments
