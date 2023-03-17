@@ -1,11 +1,14 @@
-name: Docker
+name: Test
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ master, release ]
+  pull_request:
 
 env:
   # Environments
