@@ -36,15 +36,15 @@ export class FormController {
     return this.formService.create(admin, createFormDto);
   }
 
-  @Patch(':id')
+  @Patch(':clubid')
   @ApiBearerAuth()
   @UseGuards(AdminGuard)
   update(
     @Req() req: Request,
-    @Param('id') id: string,
+    @Param('clubid') clubid: string,
     @Body() updateFormDto: UpdateFormDto,
   ) {
     const admin: Admin = req.user as any;
-    return this.formService.update(admin, +id, updateFormDto);
+    return this.formService.update(admin, +clubid, updateFormDto);
   }
 }

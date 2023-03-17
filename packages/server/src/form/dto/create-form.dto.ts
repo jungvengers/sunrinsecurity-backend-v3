@@ -1,8 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber } from 'class-validator';
 
 export class CreateFormDto {
   @ApiProperty({ example: 1, description: '동아리 ID' })
-  clubid: number;
+  @IsNumber(
+    {
+      allowNaN: false,
+      allowInfinity: false,
+      maxDecimalPlaces: 0,
+    },
+    {
+      message: '동아리 ID는 숫자로 입력해주세요.',
+    },
+  )
+  clubid!: number;
 
   @ApiProperty({ example: '질문1', description: '질문' })
   question1: string;
