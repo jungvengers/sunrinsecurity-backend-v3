@@ -33,7 +33,7 @@ export class ApplicationService {
         '3개 이상 지원할 수 없습니다.',
         HttpStatus.BAD_REQUEST,
       );
-    const item = await this.applicationRepository.create({
+    const item = this.applicationRepository.create({
       email: user.email,
       name: user.username,
       studentId: studentId(user),
@@ -85,7 +85,6 @@ export class ApplicationService {
     clubid: number,
     updateApplicationDto: UpdateApplicationDto,
   ) {
-    delete updateApplicationDto.clubid;
     return this.applicationRepository.update(
       { email: user.email, club: { id: clubid } },
       updateApplicationDto,
