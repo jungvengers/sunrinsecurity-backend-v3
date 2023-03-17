@@ -14,7 +14,15 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors({
-    origin: config.get<string>('CORS_ORIGIN', '*'),
+    origin: [
+      config.get<string>('CORS_ORIGIN', '*'),
+      RegExp(
+        config.get<string>(
+          'CORS_PREVIEW_ORIGIN',
+          '^https?://[a-z0-9]+.[a-zA-Z0-9-]+.pages.dev',
+        ),
+      ),
+    ],
     methods: config.get<string>(
       'CORS_METHODS',
       'GET,HEAD,PUT,PATCH,POST,DELETE',
