@@ -8,6 +8,7 @@ name: Docker
 on:
   schedule:
     - cron: '0 15 * * *'
+  pull_request:
   workflow_run:
     workflows: [ Test ] # Reuse the name of your tests workflow
     branches: [ master, release ]
