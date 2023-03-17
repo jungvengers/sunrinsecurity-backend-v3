@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsJSON, IsString, IsUrl } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsString, IsUrl, ValidateNested } from 'class-validator';
 
 export class CreateClubDto {
   @ApiProperty({ example: 'Layer7', description: '동아리 이름' })
@@ -47,6 +48,41 @@ export class CreateClubDto {
     ],
     description: '동아리 링크',
   })
-  @IsJSON({ message: '동아리 링크는 JSON 배열 형식으로 입력해주세요.' })
-  links!: { image: string; name: string; link: string }[];
+  @IsArray({ message: '동아리 링크는 배열 형식으로 입력해주세요.' })
+  @ValidateNested({ each: true })
+  @Type(() => ClubLinkDto)
+  links!: ClubLinkDto[];
+}
+
+export class ClubLinkDto {
+  @ApiProperty({
+    example:
+      'https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_92x30dp.png',
+    description: '링크 이미지',
+  })
+  @IsUrl(
+    {
+      protocols: ['http', 'https'],
+      require_protocol: true,
+    },
+    { message: '링크 이미지는 URL 형식으로 입력해주세요.' },
+  )
+  image!: string;
+
+  @ApiProperty({ example: '구글', description: '링크 이름' })
+  @IsString({ message: '링크 이름은 문자열로 입력해주세요.' })
+  name!: string;
+
+  @ApiProperty({
+    example: 'https://google.com',
+    description: '링크',
+  })
+  @IsUrl(
+    {
+      protocols: ['http', 'https'],
+      require_protocol: true,
+    },
+    { message: '링크는 URL 형식으로 입력해주세요.' },
+  )
+  link!: string;
 }
