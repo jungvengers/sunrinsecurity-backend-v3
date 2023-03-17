@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUrl, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsString,
+  IsUrl,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
 
 export class CreateProjectDto {
   @ApiProperty({
@@ -51,6 +57,14 @@ export class CreateProjectDto {
     ],
     description: '프로젝트 첨부파일',
   })
+  @IsArray({ message: '프로젝트 첨부파일은 배열로 입력해주세요.' })
+  @IsUrl(
+    {
+      protocols: ['http', 'https'],
+      require_protocol: true,
+    },
+    { each: true, message: '프로젝트 첨부파일은 URL 형식으로 입력해주세요.' },
+  )
   attach: string[];
 
   @ApiProperty({
