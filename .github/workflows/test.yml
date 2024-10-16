@@ -55,9 +55,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: corepack enable
+          cache: "yarn"
       - run: corepack up
-      - run: yarn global add lerna
       - run: lerna bootstrap
       - run: lerna run test
       - name: Archive npm failure logs
