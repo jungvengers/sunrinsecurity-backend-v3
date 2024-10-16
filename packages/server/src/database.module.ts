@@ -12,12 +12,12 @@ import { Admin } from './admin/entities/admin.entity';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: async (config: ConfigService) => ({
-        type: 'mysql',
+        type: 'postgres',
         host: config.get<string>('DB_HOST'),
         port: config.get<number>('DB_PORT'),
-        database: config.get<string>('DB_NAME'),
-        username: config.get<string>('DB_USERNAME'),
-        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('POSTGRES_DB'),
+        username: config.get<string>('POSTGRES_USER'),
+        password: config.get<string>('POSTGRES_PASSWORD'),
         entities: [Project, Club, Notice, Form, Application, Admin],
         migrations: [],
         subscribers: [],
@@ -29,3 +29,4 @@ import { Admin } from './admin/entities/admin.entity';
   ],
 })
 export class DatabaseModule {}
+

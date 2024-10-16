@@ -13,9 +13,9 @@ export const ConfigValidator = Joi.object({
   SWAGGER_ENABLED: Joi.boolean(),
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.number().required(),
-  DB_NAME: Joi.string().required(),
-  DB_USERNAME: Joi.string().required(),
-  DB_PASSWORD: Joi.string().required(),
+  POSTGRES_DB: Joi.string().required(),
+  POSTGRES_USER: Joi.string().required(),
+  POSTGRES_PASSWORD: Joi.string().required(),
   JWT_SECRET: Joi.string().required(),
   JWT_EXPIRES_IN: Joi.string().required(),
   ACCESS_TOKEN_SECRET: Joi.string().required(),
@@ -35,3 +35,4 @@ export const ConfigValidator = Joi.object({
   FORM_END_TIME: Joi.date().iso().required(),
   // ADMIN: Joi.array().items(Joi.string()).required(),
 });
+
