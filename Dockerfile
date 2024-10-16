@@ -1,10 +1,12 @@
-FROM node:18
+FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY . .
-RUN yarn global add lerna
-RUN lerna bootstrap
-RUN lerna run build
+RUN corepack enable
 
-CMD [ "lerna", "run", "start", "--scope=server" ]
+COPY . .
+RUN corepack up
+RUN pnpm install
+RUN pnpm build
+
+CMD [ "pnpm", "--filter=server", "start" ]

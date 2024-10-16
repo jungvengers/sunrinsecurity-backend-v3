@@ -1,14 +1,24 @@
-version: '2.0'
+version: "3.0"
 
 services:
   server:
-    image: 'ghcr.io/jungvengers/sunrinsecurity-backend-v3:master'
+    image: "ghcr.io/jungvengers/sunrinsecurity-backend-v3:master"
     env_file:
       - .env
-      - packages/server/.env
     environment:
       - PORT=3000
     ports:
       - 3000:3000
     extra_hosts:
       - host.docker.internal:host-gateway
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
