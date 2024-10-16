@@ -2,6 +2,8 @@ FROM node:18
 
 WORKDIR /app
 
+RUN corepack enable
+
 COPY . .
 RUN yarn global add lerna
 RUN lerna bootstrap
