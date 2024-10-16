@@ -5,6 +5,8 @@ WORKDIR /app
 RUN corepack enable
 
 COPY . .
+RUN corepack up
+RUN pnpm install
 RUN pnpm build
 
 CMD [ "pnpm", "--filter=server", "start" ]
