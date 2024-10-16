@@ -7,28 +7,28 @@ name: Test
 
 on:
   push:
-    branches: [ master, release ]
+    branches: [master, release]
   pull_request:
 
 env:
   # Environments
   NODE_ENV: ${{ vars.NODE_ENV }}
-  
+
   DB_HOST: ${{ vars.DB_HOST }}
   DB_PORT: ${{ vars.DB_PORT }}
   DB_NAME: ${{ vars.DB_NAME }}
   DB_USERNAME: ${{ vars.DB_USER }}
   DB_PASSWORD: ${{ vars.DB_PASSWORD }}
-  
+
   JWT_SECRET: ${{ vars.JWT_SECRET }}
   JWT_EXPIRES_IN: ${{ vars.JWT_EXPIRES_IN }}
-  
+
   ACCESS_TOKEN_SECRET: ${{ vars.ACCESS_TOKEN_SECRET }}
   ACCESS_TOKEN_EXPIRES_IN: ${{ vars.ACCESS_TOKEN_EXPIRES_IN }}
-  
+
   REFRESH_TOKEN_SECRET: ${{ vars.REFRESH_TOKEN_SECRET }}
   REFRESH_TOKEN_EXPIRES_IN: ${{ vars.REFRESH_TOKEN_EXPIRES_IN }}
-  
+
   CORS_ORIGIN: ${{ vars.CORS_ORIGIN }}
   CORS_METHODS: ${{ vars.CORS_METHODS }}
 
@@ -50,21 +50,21 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: yarn global add lerna
-    - run: lerna bootstrap
-    - run: lerna run test
-    - name: Archive npm failure logs
-      uses: actions/upload-artifact@v2
-      if: failure()
-      with:
-        name: npm-logs
-        path: ~/.npm/_logs
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn global add lerna
+      - run: lerna bootstrap
+      - run: lerna run test
+      - name: Archive npm failure logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs
   lint:
     runs-on: ubuntu-latest
     environment: development
@@ -72,43 +72,43 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: echo $ACCESS_TOKEN_SECRET
-    - run: yarn global add lerna
-    - run: lerna bootstrap
-    - run: lerna run lint
-    - name: Archive npm failure logs
-      uses: actions/upload-artifact@v2
-      if: failure()
-      with:
-        name: npm-logs
-        path: ~/.npm/_logs
-  
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: echo $ACCESS_TOKEN_SECRET
+      - run: yarn global add lerna
+      - run: lerna bootstrap
+      - run: lerna run lint
+      - name: Archive npm failure logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs
+
   build:
-    needs: [ jest, lint ]
+    needs: [jest, lint]
     runs-on: ubuntu-latest
     environment: production
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x, 19.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: yarn global add lerna
-    - run: lerna bootstrap
-    - run: lerna run build
-    - name: Archive npm failure logs
-      uses: actions/upload-artifact@v2
-      if: failure()
-      with:
-        name: npm-logs
-        path: ~/.npm/_logs
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn global add lerna
+      - run: lerna bootstrap
+      - run: lerna run build
+      - name: Archive npm failure logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs
