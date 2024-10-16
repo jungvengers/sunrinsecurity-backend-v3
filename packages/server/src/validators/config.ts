@@ -35,4 +35,3 @@ export const ConfigValidator = Joi.object({
   FORM_END_TIME: Joi.date().iso().required(),
   // ADMIN: Joi.array().items(Joi.string()).required(),
 });
-

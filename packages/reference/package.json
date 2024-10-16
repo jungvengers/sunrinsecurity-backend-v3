@@ -19,8 +19,7 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --fix",
     "build": "tsc --build"
   },
   "bugs": {

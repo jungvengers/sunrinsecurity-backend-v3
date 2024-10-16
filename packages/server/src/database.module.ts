@@ -29,4 +29,3 @@ import { Admin } from './admin/entities/admin.entity';
   ],
 })
 export class DatabaseModule {}
-
