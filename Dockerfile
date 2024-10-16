@@ -5,8 +5,6 @@ WORKDIR /app
 RUN corepack enable
 
 COPY . .
-RUN yarn global add lerna
-RUN lerna bootstrap
-RUN lerna run build
+RUN pnpm build
 
-CMD [ "lerna", "run", "start", "--scope=server" ]
+CMD [ "pnpm", "--filter=server", "start" ]
