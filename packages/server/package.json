@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "rmagur1203 <41236839+rmagur1203@users.noreply.github.com>",
   "homepage": "https://github.com/jungvengers/sunrinsecurity-backend-v3#readme",
@@ -60,6 +60,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.13.0",
+    "reference": "workspace:^",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "typeorm": "^0.3.11",

@@ -1,6 +1,6 @@
 {
   "name": "reference",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "rmagur1203 <41236839+rmagur1203@users.noreply.github.com>",
   "homepage": "https://github.com/jungvengers/sunrinsecurity-backend-v3#readme",
@@ -20,6 +20,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --fix",
+    "prebuild": "rimraf dist",
     "build": "tsc --build"
   },
   "bugs": {
@@ -35,6 +36,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "jest": "^29.1.2",
     "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3"
   },
   "dependencies": {
