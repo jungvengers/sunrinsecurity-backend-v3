@@ -56,7 +56,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: corepack up
-      - run: lerna run test
+      - run: pnpm test
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v4
         if: failure()
