@@ -60,6 +60,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
+      - run: corepack up
       - run: pnpm test
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v4
