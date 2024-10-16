@@ -55,9 +55,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "yarn"
       - run: corepack up
-      - run: lerna bootstrap
       - run: lerna run test
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v4
