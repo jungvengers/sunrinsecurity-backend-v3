@@ -12,6 +12,7 @@ on:
 
 env:
   # Environments
+  COREPACK_INTEGRITY_KEYS: 0
   NODE_ENV: ${{ vars.NODE_ENV }}
 
   DB_HOST: ${{ vars.DB_HOST }}
