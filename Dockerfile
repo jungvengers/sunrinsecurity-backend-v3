@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-RUN corepack enable
+RUN corepack enable pnpm
 
 COPY . .
 RUN corepack up
