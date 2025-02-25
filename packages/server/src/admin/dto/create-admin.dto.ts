@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AdminRole } from '../entities/admin.entity';
-import { IsEmail, IsEnum } from 'class-validator';
+import { IsEmail } from 'class-validator';
 
 export class CreateAdminDto {
   @ApiProperty({
@@ -16,13 +15,10 @@ export class CreateAdminDto {
   )
   email: string;
 
-  @ApiProperty({ example: 'admin', description: '권한', enum: AdminRole })
-  @IsEnum(AdminRole, {
-    message: '권한이 올바르지 않습니다.',
-  })
-  role: AdminRole;
+  @ApiProperty({ example: 'admin', description: 'admin | none | club.name' })
+  role: string;
 
-  constructor(email: string, role: AdminRole) {
+  constructor(email: string, role: string) {
     this.email = email;
     this.role = role;
   }
