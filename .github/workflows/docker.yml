@@ -87,12 +87,12 @@ jobs:
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
-          COSIGN_EXPERIMENTAL: "true"
+          COSIGN_EXPERIMENTAL: 1
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: |
           content="${{ steps.meta.outputs.tags }}"
           content="${content//$'\n'/'@${{ steps.build-and-push.outputs.digest }}; cosign sign '}"
           content="${content//$'\r'/''}"
-          echo "cosign sign $content"
-          echo "cosign sign $content" | /bin/bash
+          echo "cosign sign --yes $content"
+          echo "cosign sign --yes $content" | /bin/bash
