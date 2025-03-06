@@ -7,7 +7,6 @@ import { Notice } from './notice/entities/notice.entity';
 import { Form } from './form/entities/form.entity';
 import { Application } from './application/entities/application.entity';
 import { Admin } from './admin/entities/admin.entity';
-//import { Department } from './department/entities/department.entity';
 
 @Module({
   imports: [
