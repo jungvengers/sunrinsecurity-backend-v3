@@ -10,9 +10,7 @@ import { ConfigValidator } from './validators/config';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
-// import { DepartmentModule } from './department/department.module';
 import ms from 'ms';
-// import { Department } from './department/entities/department.entity';
 
 @Module({
   imports: [
@@ -39,7 +37,6 @@ import ms from 'ms';
     FormModule,
     AdminModule,
     UploadModule,
-   // DepartmentModule,
   ],
   controllers: [],
   providers: [],
