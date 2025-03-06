@@ -7,6 +7,7 @@ import { Notice } from './notice/entities/notice.entity';
 import { Form } from './form/entities/form.entity';
 import { Application } from './application/entities/application.entity';
 import { Admin } from './admin/entities/admin.entity';
+import { Department } from './department/entities/department.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { Admin } from './admin/entities/admin.entity';
         database: config.get<string>('POSTGRES_DB'),
         username: config.get<string>('POSTGRES_USER'),
         password: config.get<string>('POSTGRES_PASSWORD'),
-        entities: [Project, Club, Notice, Form, Application, Admin],
+        entities: [Project, Club, Notice, Form, Application, Admin, Department],
         migrations: [],
         subscribers: [],
         synchronize: true,
